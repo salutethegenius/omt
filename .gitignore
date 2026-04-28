@@ -1,0 +1,11 @@
+.DS_Store
+*.zip
+*.mhtml
+*.webp
+*.png
+
+# Local build/runtime artifacts
+landing/.next/
+landing/node_modules/
+landing/.vercel/
+landing/.env*

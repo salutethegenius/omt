@@ -1,0 +1,2459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orlando MaxTax — Strategic Tax & Accounting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:        #0D1F3C;
+  --navy-mid:    #162847;
+  --navy-light:  #1E3560;
+  --green:       #2B6651;
+  --green-l:     #3A8068;
+  --green-pale:  #E6F0EC;
+  --green-glow:  rgba(43,102,81,0.15);
+  --slate:       #4A5568;
+  --stone:       #718096;
+  --warm:        #F8F7F4;
+  --off:         #EEF0F2;
+  --white:       #FFFFFF;
+  --ticker-bg:   #0A1628;
+  --border:      rgba(13,31,60,0.08);
+  --border-l:    rgba(255,255,255,0.08);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+body{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:var(--white);
+  color:var(--navy);
+  overflow-x:hidden;
+}
+
+/* ─── TICKER ─── */
+.ticker-bar{
+  background:var(--ticker-bg);
+  border-bottom:1px solid rgba(43,102,81,0.3);
+  height:36px;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+  position:relative;
+  z-index:100;
+}
+
+.ticker-label{
+  flex-shrink:0;
+  background:var(--green);
+  padding:0 16px;
+  height:100%;
+  display:flex;
+  align-items:center;
+  font-family:'DM Mono',monospace;
+  font-size:9px;
+  letter-spacing:0.2em;
+  color:white;
+  text-transform:uppercase;
+  white-space:nowrap;
+  z-index:2;
+}
+
+.ticker-label::after{
+  content:'';
+  position:absolute;
+  left:calc(16px * 2 + 80px);
+  top:0; bottom:0;
+  width:20px;
+  background:linear-gradient(90deg,var(--green),transparent);
+}
+
+.ticker-track{
+  display:flex;
+  animation:tickerScroll 40s linear infinite;
+  white-space:nowrap;
+  padding-left:32px;
+}
+
+.ticker-track:hover{ animation-play-state:paused; }
+
+.ticker-item{
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  color:rgba(255,255,255,0.6);
+  letter-spacing:0.06em;
+  padding-right:64px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.ticker-item .deadline-date{
+  color:var(--green-l);
+  font-weight:500;
+}
+
+.ticker-item .deadline-urgent{
+  color:#F59E0B;
+}
+
+.ticker-divider{
+  color:rgba(255,255,255,0.15);
+  margin-right:64px;
+}
+
+@keyframes tickerScroll{
+  0%{transform:translateX(0);}
+  100%{transform:translateX(-50%);}
+}
+
+/* ─── NAVBAR ─── */
+.nav{
+  position:sticky;
+  top:0;
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  z-index:99;
+  padding:0 48px;
+  height:68px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  transition:box-shadow 0.3s;
+}
+
+.nav.scrolled{
+  box-shadow:0 4px 24px rgba(13,31,60,0.08);
+}
+
+.nav-logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-decoration:none;
+}
+
+.nav-wordmark{
+  display:flex;
+  flex-direction:column;
+  line-height:1;
+}
+
+.nav-subline{
+  font-family:'DM Mono',monospace;
+  font-size:8px;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:var(--stone);
+  margin-top:2px;
+}
+
+.nav-orlando{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:3px;
+  color:var(--green);
+  text-transform:uppercase;
+}
+
+.nav-maxtax{
+  font-family:'Libre Baskerville',serif;
+  font-size:20px;
+  font-weight:700;
+  color:var(--navy);
+  letter-spacing:-0.3px;
+  line-height:1.1;
+}
+
+.nav-maxtax em{
+  font-style:italic;
+  color:var(--green);
+}
+
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:32px;
+  list-style:none;
+}
+
+.nav-links a{
+  font-size:14px;
+  font-weight:500;
+  color:var(--slate);
+  text-decoration:none;
+  letter-spacing:0.01em;
+  transition:color 0.2s;
+}
+
+.nav-links a:hover{ color:var(--navy); }
+
+.nav-cta{
+  background:var(--green);
+  color:white !important;
+  padding:10px 22px;
+  border-radius:6px;
+  font-weight:600 !important;
+  font-size:13px !important;
+  letter-spacing:0.02em;
+  transition:background 0.2s, transform 0.15s !important;
+}
+
+.nav-cta:hover{
+  background:var(--green-l) !important;
+  transform:translateY(-1px);
+}
+
+/* ─── HERO ─── */
+.hero{
+  background:var(--navy);
+  min-height:92vh;
+  display:grid;
+  grid-template-columns:1fr 480px;
+  gap:0;
+  position:relative;
+  overflow:hidden;
+}
+
+/* Ledger lines bg texture */
+.hero::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background-image:repeating-linear-gradient(
+    0deg,
+    transparent, transparent 40px,
+    rgba(255,255,255,0.018) 40px,
+    rgba(255,255,255,0.018) 41px
+  );
+  pointer-events:none;
+}
+
+/* Green glow orb */
+.hero::after{
+  content:'';
+  position:absolute;
+  width:600px; height:600px;
+  background:radial-gradient(circle, rgba(43,102,81,0.18) 0%, transparent 70%);
+  top:-100px; left:-100px;
+  pointer-events:none;
+}
+
+.hero-content{
+  padding:80px 72px 80px 72px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  position:relative;
+  z-index:2;
+}
+
+.hero-eyebrow{
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  letter-spacing:0.22em;
+  color:var(--green-l);
+  text-transform:uppercase;
+  margin-bottom:24px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  opacity:0;
+  animation:fadeUp 0.7s ease 0.2s forwards;
+}
+
+.hero-eyebrow::before{
+  content:'';
+  display:block;
+  width:32px; height:1px;
+  background:var(--green-l);
+}
+
+.hero-headline{
+  font-family:'Libre Baskerville',serif;
+  font-size:clamp(40px, 4.5vw, 62px);
+  font-weight:700;
+  color:white;
+  line-height:1.1;
+  letter-spacing:-0.03em;
+  margin-bottom:28px;
+  opacity:0;
+  animation:fadeUp 0.8s ease 0.35s forwards;
+}
+
+.hero-headline em{
+  font-style:italic;
+  color:var(--green-l);
+}
+
+.hero-sub{
+  font-size:17px;
+  line-height:1.75;
+  color:rgba(255,255,255,0.55);
+  max-width:480px;
+  margin-bottom:44px;
+  font-weight:400;
+  opacity:0;
+  animation:fadeUp 0.8s ease 0.5s forwards;
+}
+
+.hero-ctas{
+  display:flex;
+  gap:16px;
+  align-items:center;
+  margin-bottom:56px;
+  opacity:0;
+  animation:fadeUp 0.8s ease 0.65s forwards;
+}
+
+.btn-primary{
+  background:var(--green);
+  color:white;
+  padding:14px 28px;
+  border-radius:7px;
+  font-weight:600;
+  font-size:15px;
+  border:none;
+  cursor:pointer;
+  letter-spacing:0.01em;
+  transition:all 0.2s;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+
+.btn-primary:hover{
+  background:var(--green-l);
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(43,102,81,0.3);
+}
+
+.btn-secondary{
+  color:rgba(255,255,255,0.6);
+  font-size:14px;
+  font-weight:500;
+  background:none;
+  border:none;
+  cursor:pointer;
+  padding:14px 0;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  transition:color 0.2s;
+  text-decoration:none;
+}
+
+.btn-secondary:hover{ color:white; }
+
+.hero-trust{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  opacity:0;
+  animation:fadeUp 0.8s ease 0.8s forwards;
+}
+
+.trust-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-family:'DM Mono',monospace;
+  font-size:10.5px;
+  color:rgba(255,255,255,0.4);
+  letter-spacing:0.06em;
+}
+
+.trust-dot{
+  width:6px; height:6px;
+  background:var(--green);
+  border-radius:50%;
+  flex-shrink:0;
+}
+
+/* ─── AI ASSISTANT PANEL ─── */
+.hero-ai-panel{
+  background:rgba(255,255,255,0.04);
+  border-left:1px solid rgba(255,255,255,0.07);
+  display:flex;
+  flex-direction:column;
+  position:relative;
+  z-index:2;
+  opacity:0;
+  animation:fadeIn 1s ease 0.9s forwards;
+}
+
+.ai-panel-header{
+  padding:24px 28px 20px;
+  border-bottom:1px solid rgba(255,255,255,0.07);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.ai-panel-title{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.ai-panel-label{
+  font-family:'DM Mono',monospace;
+  font-size:9px;
+  letter-spacing:0.2em;
+  color:var(--green-l);
+  text-transform:uppercase;
+}
+
+.ai-panel-name{
+  font-size:15px;
+  font-weight:700;
+  color:white;
+  letter-spacing:-0.2px;
+}
+
+.ai-status{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  font-family:'DM Mono',monospace;
+  font-size:9.5px;
+  color:rgba(255,255,255,0.35);
+  letter-spacing:0.05em;
+}
+
+.ai-status-dot{
+  width:7px; height:7px;
+  background:#22C55E;
+  border-radius:50%;
+  animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+  0%,100%{opacity:1;}
+  50%{opacity:0.4;}
+}
+
+.ai-messages{
+  flex:1;
+  overflow-y:auto;
+  padding:20px 28px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  max-height:calc(92vh - 200px);
+  min-height:300px;
+}
+
+.ai-messages::-webkit-scrollbar{ width:4px; }
+.ai-messages::-webkit-scrollbar-track{ background:transparent; }
+.ai-messages::-webkit-scrollbar-thumb{ background:rgba(255,255,255,0.1); border-radius:2px; }
+
+.msg{
+  display:flex;
+  gap:10px;
+  animation:msgIn 0.3s ease;
+}
+
+@keyframes msgIn{
+  from{opacity:0;transform:translateY(8px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+.msg.user{ flex-direction:row-reverse; }
+
+.msg-avatar{
+  width:28px; height:28px;
+  border-radius:50%;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:11px;
+  font-weight:700;
+}
+
+.msg.ai .msg-avatar{
+  background:var(--green);
+  color:white;
+  font-family:'DM Mono',monospace;
+}
+
+.msg.user .msg-avatar{
+  background:rgba(255,255,255,0.1);
+  color:rgba(255,255,255,0.6);
+}
+
+.msg-bubble{
+  max-width:80%;
+  padding:11px 15px;
+  border-radius:12px;
+  font-size:13.5px;
+  line-height:1.65;
+}
+
+.msg.ai .msg-bubble{
+  background:rgba(255,255,255,0.06);
+  color:rgba(255,255,255,0.85);
+  border-radius:4px 12px 12px 12px;
+}
+
+.msg.user .msg-bubble{
+  background:var(--green);
+  color:white;
+  border-radius:12px 4px 12px 12px;
+}
+
+.msg-bubble strong{ color:var(--green-l); }
+.msg.user .msg-bubble strong{ color:rgba(255,255,255,0.85); }
+
+.ai-typing{
+  display:flex;
+  gap:4px;
+  align-items:center;
+  padding:12px 15px;
+  background:rgba(255,255,255,0.06);
+  border-radius:4px 12px 12px 12px;
+  width:fit-content;
+}
+
+.ai-typing span{
+  width:6px; height:6px;
+  background:rgba(255,255,255,0.4);
+  border-radius:50%;
+  animation:typingBounce 1.4s infinite;
+}
+.ai-typing span:nth-child(2){ animation-delay:0.2s; }
+.ai-typing span:nth-child(3){ animation-delay:0.4s; }
+
+@keyframes typingBounce{
+  0%,60%,100%{transform:translateY(0);}
+  30%{transform:translateY(-6px);}
+}
+
+.ai-quick-prompts{
+  padding:12px 28px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  border-top:1px solid rgba(255,255,255,0.06);
+}
+
+.quick-prompt{
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  color:rgba(255,255,255,0.5);
+  letter-spacing:0.04em;
+  padding:6px 12px;
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:20px;
+  cursor:pointer;
+  transition:all 0.2s;
+  background:none;
+  white-space:nowrap;
+}
+
+.quick-prompt:hover{
+  background:rgba(255,255,255,0.06);
+  color:rgba(255,255,255,0.85);
+  border-color:rgba(255,255,255,0.2);
+}
+
+.ai-input-row{
+  padding:16px 28px 20px;
+  border-top:1px solid rgba(255,255,255,0.07);
+  display:flex;
+  gap:10px;
+  align-items:flex-end;
+}
+
+.ai-input{
+  flex:1;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:8px;
+  padding:11px 14px;
+  color:white;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:13.5px;
+  resize:none;
+  outline:none;
+  transition:border-color 0.2s;
+  line-height:1.5;
+  max-height:80px;
+  min-height:42px;
+}
+
+.ai-input::placeholder{ color:rgba(255,255,255,0.25); }
+.ai-input:focus{ border-color:rgba(43,102,81,0.6); }
+
+.ai-send{
+  width:40px; height:40px;
+  background:var(--green);
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  transition:all 0.2s;
+  color:white;
+}
+
+.ai-send:hover{ background:var(--green-l); transform:scale(1.05); }
+.ai-send:disabled{ opacity:0.4; cursor:not-allowed; transform:none; }
+
+/* ─── DEADLINE COUNTER ─── */
+.deadline-strip{
+  background:var(--off);
+  border-bottom:1px solid var(--border);
+  padding:0 72px;
+  overflow:hidden;
+}
+
+.deadline-inner{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+}
+
+.deadline-card{
+  padding:28px 0 28px 28px;
+  border-right:1px solid var(--border);
+  opacity:0;
+  transform:translateY(16px);
+  transition:all 0.6s ease;
+}
+
+.deadline-card:last-child{ border-right:none; }
+.deadline-card.visible{ opacity:1; transform:translateY(0); }
+
+.dl-label{
+  font-family:'DM Mono',monospace;
+  font-size:9px;
+  letter-spacing:0.2em;
+  color:var(--stone);
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.dl-title{
+  font-size:14px;
+  font-weight:600;
+  color:var(--navy);
+  margin-bottom:4px;
+  letter-spacing:-0.1px;
+}
+
+.dl-counter{
+  font-family:'DM Mono',monospace;
+  font-size:22px;
+  font-weight:500;
+  color:var(--green);
+  letter-spacing:-0.5px;
+  display:flex;
+  align-items:baseline;
+  gap:4px;
+}
+
+.dl-counter.urgent{ color:#DC2626; }
+.dl-counter.warning{ color:#D97706; }
+
+.dl-unit{
+  font-size:11px;
+  color:var(--stone);
+  letter-spacing:0.06em;
+}
+
+/* ─── SERVICES ─── */
+.services{
+  padding:100px 72px;
+  background:white;
+}
+
+.section-eyebrow{
+  font-family:'DM Mono',monospace;
+  font-size:9.5px;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:var(--green);
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.section-eyebrow::before{
+  content:'';
+  display:block;
+  width:28px; height:1px;
+  background:var(--green);
+}
+
+.section-title{
+  font-family:'Libre Baskerville',serif;
+  font-size:clamp(32px,3vw,44px);
+  font-weight:700;
+  color:var(--navy);
+  letter-spacing:-0.03em;
+  line-height:1.15;
+  margin-bottom:64px;
+}
+
+.services-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:2px;
+}
+
+.service-card{
+  padding:48px 40px;
+  background:var(--warm);
+  border-bottom:3px solid transparent;
+  transition:all 0.3s;
+  cursor:pointer;
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity 0.6s ease, transform 0.6s ease, background 0.3s, border-color 0.3s;
+}
+
+.service-card.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.service-card:hover{
+  background:white;
+  border-bottom-color:var(--green);
+  box-shadow:0 8px 32px rgba(13,31,60,0.08);
+  transform:translateY(-4px) !important;
+}
+
+.service-icon{
+  width:48px; height:48px;
+  background:var(--green-pale);
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:24px;
+}
+
+.service-num{
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  letter-spacing:0.15em;
+  color:var(--green);
+  margin-bottom:16px;
+}
+
+.service-title{
+  font-family:'Libre Baskerville',serif;
+  font-size:20px;
+  font-weight:700;
+  color:var(--navy);
+  margin-bottom:16px;
+  letter-spacing:-0.2px;
+  line-height:1.25;
+}
+
+.service-desc{
+  font-size:14px;
+  line-height:1.75;
+  color:var(--slate);
+  margin-bottom:24px;
+}
+
+.service-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-bottom:28px;
+}
+
+.tag{
+  font-family:'DM Mono',monospace;
+  font-size:9.5px;
+  letter-spacing:0.05em;
+  color:var(--green);
+  background:var(--green-pale);
+  padding:4px 10px;
+  border-radius:20px;
+}
+
+.service-link{
+  font-size:13px;
+  font-weight:600;
+  color:var(--green);
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  letter-spacing:0.02em;
+}
+
+/* ─── ESTIMATOR ─── */
+.estimator{
+  background:var(--navy);
+  padding:100px 72px;
+  position:relative;
+  overflow:hidden;
+}
+
+.estimator::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background-image:repeating-linear-gradient(
+    0deg, transparent, transparent 40px,
+    rgba(255,255,255,0.015) 40px,
+    rgba(255,255,255,0.015) 41px
+  );
+}
+
+.estimator-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px;
+  align-items:start;
+  position:relative;
+  z-index:1;
+}
+
+.estimator-left .section-title{ color:white; margin-bottom:20px; }
+
+.estimator-desc{
+  font-size:16px;
+  line-height:1.75;
+  color:rgba(255,255,255,0.5);
+  margin-bottom:40px;
+}
+
+.estimator-features{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.estimator-features li{
+  font-size:14px;
+  color:rgba(255,255,255,0.55);
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  line-height:1.5;
+}
+
+.estimator-features li::before{
+  content:'→';
+  color:var(--green-l);
+  flex-shrink:0;
+  font-family:'DM Mono',monospace;
+  font-size:12px;
+  margin-top:1px;
+}
+
+.estimator-widget{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:16px;
+  overflow:hidden;
+}
+
+.est-header{
+  padding:24px 32px;
+  border-bottom:1px solid rgba(255,255,255,0.07);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.est-header-title{
+  font-family:'Libre Baskerville',serif;
+  font-size:18px;
+  font-weight:700;
+  color:white;
+  letter-spacing:-0.2px;
+}
+
+.est-steps{
+  display:flex;
+  gap:6px;
+}
+
+.est-step-dot{
+  width:8px; height:8px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.15);
+  transition:all 0.3s;
+}
+
+.est-step-dot.active{ background:var(--green); }
+.est-step-dot.done{ background:var(--green-l); opacity:0.5; }
+
+.est-body{ padding:32px; }
+
+.est-question{
+  font-family:'Libre Baskerville',serif;
+  font-size:20px;
+  font-weight:700;
+  color:white;
+  letter-spacing:-0.2px;
+  margin-bottom:8px;
+  line-height:1.3;
+}
+
+.est-sub{
+  font-size:13px;
+  color:rgba(255,255,255,0.4);
+  margin-bottom:28px;
+  line-height:1.6;
+}
+
+.est-options{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-bottom:28px;
+}
+
+.est-option{
+  padding:14px 18px;
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:9px;
+  cursor:pointer;
+  transition:all 0.2s;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  background:none;
+  text-align:left;
+  width:100%;
+}
+
+.est-option:hover{
+  border-color:rgba(43,102,81,0.5);
+  background:rgba(43,102,81,0.06);
+}
+
+.est-option.selected{
+  border-color:var(--green);
+  background:rgba(43,102,81,0.12);
+}
+
+.est-option-icon{
+  font-size:20px;
+  flex-shrink:0;
+}
+
+.est-option-text{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+
+.est-option-label{
+  font-size:14px;
+  font-weight:600;
+  color:white;
+  letter-spacing:-0.1px;
+}
+
+.est-option-sub{
+  font-size:12px;
+  color:rgba(255,255,255,0.4);
+}
+
+.est-nav{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+}
+
+.est-btn-back{
+  background:none;
+  border:1px solid rgba(255,255,255,0.15);
+  color:rgba(255,255,255,0.5);
+  padding:10px 20px;
+  border-radius:7px;
+  font-size:13px;
+  font-weight:500;
+  cursor:pointer;
+  transition:all 0.2s;
+  font-family:'Plus Jakarta Sans',sans-serif;
+}
+
+.est-btn-back:hover{
+  border-color:rgba(255,255,255,0.3);
+  color:white;
+}
+
+.est-btn-next{
+  background:var(--green);
+  border:none;
+  color:white;
+  padding:10px 24px;
+  border-radius:7px;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.2s;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.est-btn-next:hover{ background:var(--green-l); }
+.est-btn-next:disabled{ opacity:0.4; cursor:not-allowed; }
+
+/* Estimator result */
+.est-result{ display:none; }
+.est-result.show{ display:block; }
+
+.est-result-hero{
+  text-align:center;
+  padding:8px 0 28px;
+}
+
+.est-result-label{
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  letter-spacing:0.2em;
+  color:var(--green-l);
+  text-transform:uppercase;
+  margin-bottom:14px;
+}
+
+.est-result-range{
+  font-family:'Libre Baskerville',serif;
+  font-size:44px;
+  font-weight:700;
+  color:white;
+  letter-spacing:-1px;
+  line-height:1;
+  margin-bottom:8px;
+}
+
+.est-result-range em{ color:var(--green-l); font-style:italic; }
+
+.est-result-sub{
+  font-size:13px;
+  color:rgba(255,255,255,0.4);
+  line-height:1.6;
+  margin-bottom:28px;
+}
+
+.est-result-breakdown{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-bottom:28px;
+  padding:20px;
+  background:rgba(255,255,255,0.04);
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.06);
+}
+
+.est-breakdown-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:13px;
+}
+
+.est-breakdown-label{ color:rgba(255,255,255,0.55); }
+.est-breakdown-value{
+  font-family:'DM Mono',monospace;
+  font-size:13px;
+  color:var(--green-l);
+  font-weight:500;
+}
+
+.est-disclaimer{
+  font-family:'DM Mono',monospace;
+  font-size:9.5px;
+  color:rgba(255,255,255,0.25);
+  letter-spacing:0.04em;
+  line-height:1.7;
+  margin-bottom:20px;
+  padding:12px 16px;
+  border-left:2px solid rgba(255,255,255,0.1);
+}
+
+/* ─── WHY US ─── */
+.why{
+  padding:100px 72px;
+  background:var(--warm);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px;
+  align-items:center;
+}
+
+.why-visual{
+  position:relative;
+}
+
+.why-image-frame{
+  border-radius:4px;
+  overflow:hidden;
+  aspect-ratio:4/3;
+  background:var(--navy-mid);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+
+.why-image-placeholder{
+  width:100%;
+  height:100%;
+  background:linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+}
+
+/* Data visualization inside the why image */
+.why-chart{
+  width:100%;
+  padding:32px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+.why-chart-title{
+  font-family:'DM Mono',monospace;
+  font-size:9px;
+  letter-spacing:0.2em;
+  color:var(--green-l);
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.chart-bar-row{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.chart-bar-label{
+  font-size:11px;
+  color:rgba(255,255,255,0.4);
+  display:flex;
+  justify-content:space-between;
+  font-family:'DM Mono',monospace;
+}
+
+.chart-bar-track{
+  height:8px;
+  background:rgba(255,255,255,0.07);
+  border-radius:4px;
+  overflow:hidden;
+}
+
+.chart-bar-fill{
+  height:100%;
+  border-radius:4px;
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform 1.2s cubic-bezier(0.25,1,0.5,1);
+}
+
+.chart-bar-fill.green{ background:var(--green-l); }
+.chart-bar-fill.green-pale{ background:rgba(58,128,104,0.35); }
+
+.chart-bar-fill.animated{ transform:scaleX(1); }
+
+.why-badge{
+  position:absolute;
+  bottom:-20px;
+  right:-20px;
+  background:var(--green);
+  color:white;
+  padding:20px 24px;
+  border-radius:8px;
+  box-shadow:0 12px 40px rgba(43,102,81,0.3);
+}
+
+.why-badge-num{
+  font-family:'Libre Baskerville',serif;
+  font-size:32px;
+  font-weight:700;
+  line-height:1;
+  margin-bottom:4px;
+}
+
+.why-badge-label{
+  font-size:11px;
+  opacity:0.8;
+  font-weight:500;
+  letter-spacing:0.03em;
+}
+
+.why-right .section-title{ margin-bottom:24px; }
+
+.why-text{
+  font-size:16px;
+  line-height:1.8;
+  color:var(--slate);
+  margin-bottom:36px;
+}
+
+.why-list{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  margin-bottom:44px;
+}
+
+.why-list li{
+  font-size:14.5px;
+  color:var(--slate);
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+  line-height:1.55;
+}
+
+.why-check{
+  width:20px; height:20px;
+  background:var(--green-pale);
+  border-radius:50%;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--green);
+  font-size:11px;
+  margin-top:1px;
+}
+
+/* ─── TESTIMONIALS ─── */
+.testimonials{
+  padding:100px 72px;
+  background:white;
+}
+
+.testimonials-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:2px;
+  margin-top:56px;
+}
+
+.tcard{
+  padding:40px 36px;
+  background:var(--warm);
+  transition:all 0.3s;
+  opacity:0;
+  transform:translateY(20px);
+  transition:opacity 0.6s ease, transform 0.6s ease;
+}
+
+.tcard.visible{ opacity:1; transform:translateY(0); }
+.tcard:hover{ background:white; box-shadow:0 8px 32px rgba(13,31,60,0.07); }
+
+.tcard-stars{
+  color:var(--green);
+  font-size:14px;
+  margin-bottom:20px;
+  letter-spacing:2px;
+}
+
+.tcard-quote{
+  font-family:'Libre Baskerville',serif;
+  font-size:15px;
+  font-style:italic;
+  color:var(--navy);
+  line-height:1.7;
+  margin-bottom:28px;
+  letter-spacing:-0.1px;
+}
+
+.tcard-footer{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.tcard-avatar{
+  width:36px; height:36px;
+  border-radius:50%;
+  background:var(--green-pale);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:13px;
+  font-weight:700;
+  color:var(--green);
+}
+
+.tcard-name{
+  font-size:13.5px;
+  font-weight:700;
+  color:var(--navy);
+  letter-spacing:-0.1px;
+}
+
+.tcard-role{
+  font-size:12px;
+  color:var(--stone);
+}
+
+/* ─── FINAL CTA ─── */
+.final-cta{
+  background:var(--navy);
+  padding:100px 72px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+
+.final-cta::before{
+  content:'';
+  position:absolute;
+  width:800px; height:800px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(43,102,81,0.15) 0%, transparent 70%);
+  top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+}
+
+.final-cta-eyebrow{
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  letter-spacing:0.22em;
+  color:var(--green-l);
+  text-transform:uppercase;
+  margin-bottom:20px;
+  position:relative;
+}
+
+.final-cta h2{
+  font-family:'Libre Baskerville',serif;
+  font-size:clamp(36px,4vw,54px);
+  font-weight:700;
+  color:white;
+  letter-spacing:-0.03em;
+  line-height:1.1;
+  margin-bottom:20px;
+  position:relative;
+}
+
+.final-cta h2 em{ color:var(--green-l); font-style:italic; }
+
+.final-cta p{
+  font-size:17px;
+  color:rgba(255,255,255,0.45);
+  max-width:520px;
+  margin:0 auto 44px;
+  line-height:1.75;
+  position:relative;
+}
+
+.final-cta-btns{
+  display:flex;
+  gap:16px;
+  justify-content:center;
+  align-items:center;
+  position:relative;
+}
+
+/* ─── BOOKING FORM ─── */
+.booking{
+  background:var(--warm);
+  padding:100px 72px;
+}
+
+.booking-wrap{
+  max-width:900px;
+  margin:0 auto;
+}
+
+.booking-head{
+  text-align:center;
+  margin-bottom:36px;
+}
+
+.booking-head h2{
+  font-family:'Libre Baskerville',serif;
+  font-size:clamp(32px,3vw,44px);
+  color:var(--navy);
+  letter-spacing:-0.02em;
+  margin-top:10px;
+}
+
+.booking-head p{
+  font-size:15px;
+  color:var(--slate);
+  max-width:620px;
+  margin:14px auto 0;
+  line-height:1.7;
+}
+
+.booking-card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:28px;
+  box-shadow:0 8px 30px rgba(13,31,60,0.06);
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.field.full{
+  grid-column:1 / -1;
+}
+
+.field label{
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--stone);
+}
+
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  border:1px solid rgba(13,31,60,0.14);
+  border-radius:8px;
+  padding:12px 12px;
+  font-size:14px;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  color:var(--navy);
+  background:white;
+  outline:none;
+  transition:border-color 0.2s, box-shadow 0.2s;
+}
+
+.field textarea{
+  min-height:110px;
+  resize:vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  border-color:var(--green);
+  box-shadow:0 0 0 3px var(--green-glow);
+}
+
+.booking-actions{
+  margin-top:18px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.booking-note{
+  font-size:12px;
+  color:var(--stone);
+}
+
+.booking-status{
+  margin-top:12px;
+  font-size:13px;
+  line-height:1.5;
+  display:none;
+}
+
+.booking-status.ok{ color:#166534; display:block; }
+.booking-status.err{ color:#9f1239; display:block; }
+
+/* ─── FOOTER ─── */
+.footer{
+  background:var(--ticker-bg);
+  padding:72px 72px 40px;
+  border-top:1px solid rgba(43,102,81,0.2);
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1.5fr;
+  gap:48px;
+  margin-bottom:56px;
+}
+
+.footer-brand p{
+  font-size:13.5px;
+  color:rgba(255,255,255,0.35);
+  line-height:1.75;
+  margin-top:16px;
+  max-width:280px;
+}
+
+.footer-col-title{
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.3);
+  margin-bottom:20px;
+}
+
+.footer-links{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.footer-links a{
+  font-size:13.5px;
+  color:rgba(255,255,255,0.5);
+  text-decoration:none;
+  transition:color 0.2s;
+  letter-spacing:0.01em;
+}
+
+.footer-links a:hover{ color:rgba(255,255,255,0.85); }
+
+.footer-contact-item{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  font-size:13px;
+  color:rgba(255,255,255,0.5);
+  margin-bottom:14px;
+  line-height:1.5;
+}
+
+.footer-contact-item strong{
+  color:rgba(255,255,255,0.75);
+  display:block;
+  font-size:12px;
+  font-family:'DM Mono',monospace;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  margin-bottom:2px;
+}
+
+.footer-bottom{
+  padding-top:28px;
+  border-top:1px solid rgba(255,255,255,0.06);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.footer-bottom p{
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  color:rgba(255,255,255,0.2);
+  letter-spacing:0.06em;
+}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+@keyframes fadeIn{
+  from{opacity:0;}
+  to{opacity:1;}
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar{ width:6px; }
+::-webkit-scrollbar-track{ background:var(--off); }
+::-webkit-scrollbar-thumb{ background:var(--border); border-radius:3px; }
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1024px){
+  .hero{grid-template-columns:1fr; min-height:auto;}
+  .hero-ai-panel{border-left:none; border-top:1px solid rgba(255,255,255,0.07); max-height:60vh;}
+  .estimator-grid{grid-template-columns:1fr;}
+  .why{grid-template-columns:1fr;}
+  .testimonials-grid{grid-template-columns:1fr;}
+  .nav-links{display:none;}
+  .form-grid{grid-template-columns:1fr;}
+  .booking{padding:72px 24px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════ TICKER ══════ -->
+<div class="ticker-bar">
+  <div class="ticker-label">IRS Deadlines</div>
+  <div class="ticker-track" id="tickerTrack"></div>
+</div>
+
+<!-- ══════ NAVBAR ══════ -->
+<nav class="nav" id="mainNav">
+  <a href="#" class="nav-logo">
+    <svg width="44" height="38" viewBox="0 0 60 52" fill="none">
+      <rect x="5" y="8" width="8" height="40" rx="2" fill="#0D1F3C"/>
+      <rect x="55" y="8" width="8" fill="#0D1F3C" height="40" rx="2"/>
+      <polygon points="5,8 13,8 32,26 32,34 24,34" fill="#0D1F3C"/>
+      <polygon points="63,8 55,8 32,26 32,34 40,34" fill="#0D1F3C"/>
+      <rect x="0" y="32" width="68" height="4" rx="2" fill="#2B6651"/>
+    </svg>
+    <div class="nav-wordmark">
+      <span class="nav-orlando">Orlando</span>
+      <span class="nav-maxtax">Max<em>Tax</em></span>
+      <span class="nav-subline">Solutions &amp; Accounting</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#estimator">Estimate Savings</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#testimonials">Testimonials</a></li>
+    <li><a href="#contact"><span class="nav-cta">Request a Call</span></a></li>
+  </ul>
+</nav>
+
+<!-- ══════ HERO ══════ -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">Strategic Tax & Accounting · Orlando, FL</div>
+    <h1 class="hero-headline">
+      Your Numbers,<br>
+      <em>Seriously Handled.</em>
+    </h1>
+    <p class="hero-sub">
+      Structured filings, organized books, and year-round financial clarity for Orlando business owners who treat their finances like the asset they are.
+    </p>
+    <div class="hero-ctas">
+      <a href="#contact" class="btn-primary">
+        Request a Call
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#estimator" class="btn-secondary">
+        Estimate my savings
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="hero-trust">
+      <div class="trust-item"><div class="trust-dot"></div>IRS Authorized e-File Provider</div>
+      <div class="trust-item"><div class="trust-dot"></div>Serving Orlando businesses with precision and discretion</div>
+      <div class="trust-item"><div class="trust-dot"></div>Year-round support — not just tax season</div>
+    </div>
+  </div>
+
+  <!-- AI ASSISTANT -->
+  <div class="hero-ai-panel" id="aiPanel">
+    <div class="ai-panel-header">
+      <div class="ai-panel-title">
+        <span class="ai-panel-label">AI Tax Assistant</span>
+        <span class="ai-panel-name">MaxTax Advisor</span>
+      </div>
+      <div class="ai-status">
+        <div class="ai-status-dot"></div>
+        Online · Responds instantly
+      </div>
+    </div>
+
+    <div class="ai-messages" id="aiMessages">
+      <div class="msg ai">
+        <div class="msg-avatar">M</div>
+        <div class="msg-bubble">
+          Hi. I'm the MaxTax AI advisor — ask me anything about your Orlando business taxes, 2290 filings, LLC structures, or what services might fit your situation. <strong>What kind of business do you run?</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="ai-quick-prompts" id="quickPrompts">
+      <button class="quick-prompt" onclick="sendQuickPrompt(this)">I run a trucking company</button>
+      <button class="quick-prompt" onclick="sendQuickPrompt(this)">I need bookkeeping help</button>
+      <button class="quick-prompt" onclick="sendQuickPrompt(this)">What's the 2290 deadline?</button>
+      <button class="quick-prompt" onclick="sendQuickPrompt(this)">I'm starting an LLC</button>
+    </div>
+
+    <div class="ai-input-row">
+      <textarea class="ai-input" id="aiInput" placeholder="Ask about your tax situation..." rows="1"></textarea>
+      <button class="ai-send" id="aiSend" onclick="sendMessage()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ DEADLINE STRIP ══════ -->
+<div class="deadline-strip">
+  <div class="deadline-inner" id="deadlineStrip"></div>
+</div>
+
+<!-- ══════ SERVICES ══════ -->
+<section class="services" id="services">
+  <div class="section-eyebrow">What We Do</div>
+  <div class="section-title">Services Built Around<br>Business Owners</div>
+  <div class="services-grid">
+    <div class="service-card" style="transition-delay:0s">
+      <div class="service-num">01</div>
+      <div class="service-title">Business Tax &amp; Compliance</div>
+      <div class="service-desc">Corporate and LLC tax filing, sales tax reporting, payroll tax, and 2290 filing for transportation operators. Accurate, on time, every time.</div>
+      <div class="service-tags">
+        <span class="tag">Corporate Tax</span>
+        <span class="tag">Sales Tax</span>
+        <span class="tag">2290 Filing</span>
+        <span class="tag">Payroll Tax</span>
+      </div>
+      <a href="#contact" class="service-link">Learn more →</a>
+    </div>
+    <div class="service-card" style="transition-delay:0.15s">
+      <div class="service-num">02</div>
+      <div class="service-title">Accounting &amp; Financial Clarity</div>
+      <div class="service-desc">Monthly bookkeeping, financial statement preparation, payroll processing, and reporting you can actually read and act on.</div>
+      <div class="service-tags">
+        <span class="tag">Bookkeeping</span>
+        <span class="tag">QuickBooks</span>
+        <span class="tag">Payroll</span>
+        <span class="tag">Reporting</span>
+      </div>
+      <a href="#contact" class="service-link">Learn more →</a>
+    </div>
+    <div class="service-card" style="transition-delay:0.3s">
+      <div class="service-num">03</div>
+      <div class="service-title">Strategic Advisory</div>
+      <div class="service-desc">Entity setup, tax planning, quarterly reviews, and proactive compliance guidance. The work that separates reactive filing from real financial strategy.</div>
+      <div class="service-tags">
+        <span class="tag">Entity Setup</span>
+        <span class="tag">Tax Planning</span>
+        <span class="tag">Quarterly Review</span>
+      </div>
+      <a href="#contact" class="service-link">Learn more →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ ESTIMATOR ══════ -->
+<section class="estimator" id="estimator">
+  <div class="estimator-grid">
+    <div class="estimator-left">
+      <div class="section-eyebrow" style="color:var(--green-l)">Tax Savings Estimator</div>
+      <div class="section-title" style="color:white;">See What You Might<br><em style="color:var(--green-l);font-style:italic;">Be Missing</em></div>
+      <p class="estimator-desc">Most business owners leave money on the table because they don't have a structured tax strategy. This tool gives you a directional estimate based on businesses like yours.</p>
+      <ul class="estimator-features">
+        <li>Takes 60 seconds — three questions</li>
+        <li>Based on real Orlando client data patterns</li>
+        <li>Covers deductions, credits, and filing opportunities</li>
+        <li>Results are estimates — your actual number requires a review</li>
+      </ul>
+    </div>
+    <div class="estimator-widget" id="estimatorWidget">
+      <div class="est-header">
+        <span class="est-header-title">Tax Savings Estimate</span>
+        <div class="est-steps">
+          <div class="est-step-dot active" id="dot0"></div>
+          <div class="est-step-dot" id="dot1"></div>
+          <div class="est-step-dot" id="dot2"></div>
+        </div>
+      </div>
+      <div class="est-body" id="estBody"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ WHY US ══════ -->
+<section class="why" id="about">
+  <div class="why-visual">
+    <div class="why-image-frame">
+      <div class="why-image-placeholder">
+        <div class="why-chart">
+          <div class="why-chart-title">Client outcomes — annual average</div>
+          <div class="chart-bar-row">
+            <div class="chart-bar-label"><span>Tax liability reduction</span><span style="color:var(--green-l)">28%</span></div>
+            <div class="chart-bar-track"><div class="chart-bar-fill green" style="width:75%"></div></div>
+          </div>
+          <div class="chart-bar-row">
+            <div class="chart-bar-label"><span>Filing accuracy rate</span><span style="color:var(--green-l)">99.8%</span></div>
+            <div class="chart-bar-track"><div class="chart-bar-fill green" style="width:95%"></div></div>
+          </div>
+          <div class="chart-bar-row">
+            <div class="chart-bar-label"><span>Deductions identified</span><span style="color:var(--green-l)">+$12k avg</span></div>
+            <div class="chart-bar-track"><div class="chart-bar-fill green" style="width:60%"></div></div>
+          </div>
+          <div class="chart-bar-row">
+            <div class="chart-bar-label"><span>Client retention rate</span><span style="color:var(--green-l)">94%</span></div>
+            <div class="chart-bar-track"><div class="chart-bar-fill green" style="width:88%"></div></div>
+          </div>
+          <div style="margin-top:12px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.07);">
+            <div style="font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.25);letter-spacing:0.1em;">Based on 2023–2025 client data · Estimates</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="why-badge">
+      <div class="why-badge-num">20+</div>
+      <div class="why-badge-label">Years of trust</div>
+    </div>
+  </div>
+
+  <div class="why-right">
+    <div class="section-eyebrow">Why MaxTax</div>
+    <div class="section-title">Built for Business Owners Who Take Their Finances Seriously</div>
+    <p class="why-text">We work with established small and mid-size businesses in Orlando — not seasonal walk-ins. Our clients want a structured financial partner who knows their numbers as well as they do.</p>
+    <ul class="why-list">
+      <li><div class="why-check">✓</div>Direct communication with an experienced professional — not a rotating junior team</li>
+      <li><div class="why-check">✓</div>Organized, accurate reporting delivered on time, every period</li>
+      <li><div class="why-check">✓</div>Proactive compliance reminders before deadlines — not after</li>
+      <li><div class="why-check">✓</div>Discretion with sensitive financial data as standard, not optional</li>
+      <li><div class="why-check">✓</div>Support beyond tax season — 12 months, not 4</li>
+    </ul>
+    <a href="#contact" class="btn-primary" style="align-self:flex-start;display:inline-flex;">
+      Start the conversation
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ══════ TESTIMONIALS ══════ -->
+<section class="testimonials" id="testimonials">
+  <div class="section-eyebrow">Testimonials</div>
+  <div class="section-title">What Orlando Business<br>Owners Say</div>
+  <div class="testimonials-grid">
+    <div class="tcard" style="transition-delay:0s">
+      <div class="tcard-stars">★★★★★</div>
+      <div class="tcard-quote">"MaxTax has been handling my business taxes for three years. They are thorough, organized, and always answer questions I never knew I should be asking."</div>
+      <div class="tcard-footer">
+        <div class="tcard-avatar">D</div>
+        <div><div class="tcard-name">David R.</div><div class="tcard-role">Business Owner</div></div>
+      </div>
+    </div>
+    <div class="tcard" style="transition-delay:0.15s">
+      <div class="tcard-stars">★★★★★</div>
+      <div class="tcard-quote">"Team MaxTax did our quarterly planning and identified deductions we hadn't thought of for years. The savings covered their fee many times over."</div>
+      <div class="tcard-footer">
+        <div class="tcard-avatar">M</div>
+        <div><div class="tcard-name">Maria S.</div><div class="tcard-role">Restaurant Operator</div></div>
+      </div>
+    </div>
+    <div class="tcard" style="transition-delay:0.3s">
+      <div class="tcard-stars">★★★★★</div>
+      <div class="tcard-quote">"Professional, discreet, and genuinely knowledgeable about trucking tax. The 2290 process used to stress me out. Now it just gets handled."</div>
+      <div class="tcard-footer">
+        <div class="tcard-avatar">J</div>
+        <div><div class="tcard-name">James T.</div><div class="tcard-role">Transportation Owner</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ FINAL CTA ══════ -->
+<section class="final-cta">
+  <div class="final-cta-eyebrow">Ready to Begin</div>
+  <h2>Clear Numbers.<br><em>Serious Advisory.</em></h2>
+  <p>Tell us about your business. We review every request personally and follow up to schedule a time to speak.</p>
+  <div class="final-cta-btns">
+    <a href="tel:4078072353" class="btn-primary">
+      Call (407) 807-2353
+    </a>
+    <a href="mailto:info@orlandomaxtax.com" class="btn-secondary" style="color:rgba(255,255,255,0.5);">
+      Send an email →
+    </a>
+  </div>
+</section>
+
+<!-- ══════ BOOKING FORM ══════ -->
+<section class="booking" id="contact">
+  <div class="booking-wrap">
+    <div class="booking-head">
+      <div class="section-eyebrow" style="justify-content:center;">Book An Appointment</div>
+      <h2>Tell Us About Your Business</h2>
+      <p>Share your details below and Orlando MaxTax will follow up to confirm a time that works for your schedule.</p>
+    </div>
+
+    <div class="booking-card">
+      <form id="bookingForm">
+        <div class="form-grid">
+          <div class="field">
+            <label for="fullName">Full Name</label>
+            <input id="fullName" name="fullName" required />
+          </div>
+          <div class="field">
+            <label for="businessName">Business Name</label>
+            <input id="businessName" name="businessName" required />
+          </div>
+          <div class="field">
+            <label for="email">Email Address</label>
+            <input id="email" name="email" type="email" required />
+          </div>
+          <div class="field">
+            <label for="phone">Phone Number</label>
+            <input id="phone" name="phone" type="tel" required />
+          </div>
+          <div class="field">
+            <label for="role">You Are</label>
+            <select id="role" name="role" required>
+              <option value="">Select one</option>
+              <option value="small-business-owner">Small business owner</option>
+              <option value="self-employed-professional">Self employed professional</option>
+              <option value="independent-contractor">Independent contractor</option>
+              <option value="new-business-forming">New business forming</option>
+              <option value="transportation-operator">Transportation operator</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="revenueRange">Annual Revenue</label>
+            <select id="revenueRange" name="revenueRange" required>
+              <option value="">Select range</option>
+              <option value="under-100k">Under 100k</option>
+              <option value="100k-250k">100k to 250k</option>
+              <option value="250k-1m">250k to 1M</option>
+              <option value="1m-plus">1M+</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label for="services">Primary Service Needed</label>
+            <select id="services" name="services" required>
+              <option value="">Select service</option>
+              <option value="Business tax filing">Business tax filing</option>
+              <option value="Bookkeeping support">Bookkeeping support</option>
+              <option value="Payroll services">Payroll services</option>
+              <option value="Sales tax reporting">Sales tax reporting</option>
+              <option value="2290 filing">2290 filing</option>
+              <option value="New business setup">New business setup</option>
+              <option value="Ongoing advisory">Ongoing advisory</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label for="description">Short Description</label>
+            <textarea id="description" name="description" required placeholder="Tell us briefly what you would like help with."></textarea>
+          </div>
+          <div class="field">
+            <label for="bestTimeWindow">Best Time Window</label>
+            <input id="bestTimeWindow" name="bestTimeWindow" placeholder="For example: weekday afternoons" />
+          </div>
+          <div class="field">
+            <label for="relationshipType">Support Type</label>
+            <select id="relationshipType" name="relationshipType" required>
+              <option value="">Select one</option>
+              <option value="one-time-filing">One time filing support</option>
+              <option value="ongoing-accounting">Ongoing accounting support</option>
+              <option value="long-term-advisory">Long term advisory relationship</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="booking-actions">
+          <button class="btn-primary" id="bookingSubmit" type="submit">Book An Appointment</button>
+          <div class="booking-note">We respond to serious business inquiries within one business day.</div>
+          <div id="bookingStatus" class="booking-status"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ FOOTER ══════ -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;">
+        <svg width="36" height="30" viewBox="0 0 60 52" fill="none">
+          <rect x="5" y="8" width="8" height="40" rx="2" fill="white" opacity="0.8"/>
+          <rect x="55" y="8" width="8" height="40" rx="2" fill="white" opacity="0.8"/>
+          <polygon points="5,8 13,8 32,26 32,34 24,34" fill="white" opacity="0.8"/>
+          <polygon points="63,8 55,8 32,26 32,34 40,34" fill="white" opacity="0.8"/>
+          <rect x="0" y="32" width="68" height="4" rx="2" fill="#3A8068"/>
+        </svg>
+        <div>
+          <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--green-l);text-transform:uppercase;">Orlando</div>
+          <div style="font-family:'Libre Baskerville',serif;font-size:17px;font-weight:700;color:white;letter-spacing:-0.3px;">Max<em style="font-style:italic;color:var(--green-l);">Tax</em></div>
+        </div>
+      </div>
+      <p>Strategic tax and accounting advisory services for established Orlando businesses and professionals. Built on 20+ years of trust.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Services</div>
+      <ul class="footer-links">
+        <li><a href="#">Business Tax & Compliance</a></li>
+        <li><a href="#">Accounting & Bookkeeping</a></li>
+        <li><a href="#">Strategic Advisory</a></li>
+        <li><a href="#">Sales Tax Reporting</a></li>
+        <li><a href="#">2290 Filing</a></li>
+        <li><a href="#">Notary Services</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="#">About</a></li>
+        <li><a href="#">Testimonials</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Contact</div>
+      <div class="footer-contact-item"><div><strong>Phone</strong>(407) 807-2353</div></div>
+      <div class="footer-contact-item"><div><strong>Email</strong>info@orlandomaxtax.com</div></div>
+      <div class="footer-contact-item"><div><strong>Location</strong>Orlando, Florida</div></div>
+      <div class="footer-contact-item"><div><strong>Hours</strong>Mon–Fri 9am–5pm · Sat by appt</div></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Orlando MaxTax Solutions & Accounting Services. All rights reserved.</p>
+    <p>Powered by <a href="https://kemisdigital.com" style="color:var(--green-l);text-decoration:none;">KemisDigital</a></p>
+  </div>
+</footer>
+
+<script>
+// ══════════════════════════════════
+// TICKER — IRS Deadlines
+// ══════════════════════════════════
+const deadlines = [
+  { date: 'Mar 17', label: 'S-Corp / Partnership Returns (Form 1065, 1120-S)', days: daysUntil(2026, 2, 17) },
+  { date: 'Apr 15', label: 'Individual & C-Corp Tax Returns (Form 1040, 1120)', days: daysUntil(2026, 3, 15) },
+  { date: 'Apr 15', label: 'Q1 Estimated Tax Payment Due', days: daysUntil(2026, 3, 15) },
+  { date: 'Jun 16', label: 'Q2 Estimated Tax Payment Due', days: daysUntil(2026, 5, 16) },
+  { date: 'Aug 31', label: 'Heavy Vehicle Use Tax — Form 2290 Due', days: daysUntil(2026, 7, 31) },
+  { date: 'Sep 15', label: 'Extended S-Corp / Partnership Returns', days: daysUntil(2026, 8, 15) },
+  { date: 'Sep 15', label: 'Q3 Estimated Tax Payment Due', days: daysUntil(2026, 8, 15) },
+  { date: 'Oct 15', label: 'Extended Individual Returns', days: daysUntil(2026, 9, 15) },
+  { date: 'Jan 15', label: 'Q4 Estimated Tax Payment Due', days: daysUntil(2027, 0, 15) },
+];
+
+function daysUntil(year, month, day) {
+  const today = new Date();
+  const target = new Date(year, month, day);
+  const diff = Math.ceil((target - today) / (1000 * 60 * 60 * 24));
+  return diff;
+}
+
+function buildTicker() {
+  const track = document.getElementById('tickerTrack');
+  // Build items twice for infinite loop
+  for (let i = 0; i < 2; i++) {
+    deadlines.forEach(d => {
+      const isUrgent = d.days <= 14 && d.days > 0;
+      const isPast = d.days < 0;
+      if (isPast) return;
+      const item = document.createElement('span');
+      item.className = 'ticker-item';
+      item.innerHTML = `
+        <span class="deadline-date ${isUrgent ? 'deadline-urgent' : ''}">${d.date}</span>
+        <span>${d.label}</span>
+        <span style="color:${isUrgent ? '#F59E0B' : 'rgba(255,255,255,0.25)'}">
+          ${isUrgent ? `⚠ ${d.days}d` : `${d.days}d`}
+        </span>
+        <span class="ticker-divider">|</span>
+      `;
+      track.appendChild(item);
+    });
+  }
+}
+
+// ══════════════════════════════════
+// DEADLINE STRIP
+// ══════════════════════════════════
+function buildDeadlineStrip() {
+  const strip = document.getElementById('deadlineStrip');
+  const upcoming = deadlines.filter(d => d.days > 0).slice(0, 4);
+  upcoming.forEach((d, i) => {
+    const urgency = d.days <= 14 ? 'urgent' : d.days <= 30 ? 'warning' : '';
+    const card = document.createElement('div');
+    card.className = 'deadline-card';
+    card.style.transitionDelay = `${i * 0.1}s`;
+    card.innerHTML = `
+      <div class="dl-label">Next Deadline</div>
+      <div class="dl-title">${d.label.length > 40 ? d.label.slice(0,40) + '…' : d.label}</div>
+      <div class="dl-counter ${urgency}">
+        <span>${d.days}</span>
+        <span class="dl-unit">days · ${d.date}</span>
+      </div>
+    `;
+    strip.appendChild(card);
+  });
+}
+
+// ══════════════════════════════════
+// SCROLL OBSERVER
+// ══════════════════════════════════
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      // Animate chart bars when why section is visible
+      if (entry.target.classList.contains('why-image-frame')) {
+        setTimeout(() => {
+          document.querySelectorAll('.chart-bar-fill').forEach(bar => {
+            bar.classList.add('animated');
+          });
+        }, 300);
+      }
+    }
+  });
+}, { threshold: 0.15 });
+
+// Navbar scroll effect
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('mainNav');
+  nav.classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// ══════════════════════════════════
+// ESTIMATOR
+// ══════════════════════════════════
+const estData = {
+  step: 0,
+  answers: {},
+  steps: [
+    {
+      question: "What type of business do you operate?",
+      sub: "This helps us estimate applicable deductions and filing requirements.",
+      options: [
+        { icon: "🚚", label: "Transportation / Trucking", sub: "Owner-operator, fleet, freight" },
+        { icon: "🏪", label: "Retail / Restaurant", sub: "Physical store, food service" },
+        { icon: "💼", label: "Professional Services", sub: "Consulting, agency, healthcare" },
+        { icon: "🔨", label: "Construction / Trades", sub: "Contractor, subcontractor" },
+        { icon: "📦", label: "Other Small Business", sub: "E-commerce, other industries" },
+      ]
+    },
+    {
+      question: "What's your approximate annual revenue?",
+      sub: "We use this to estimate the typical tax exposure and savings opportunity.",
+      options: [
+        { icon: "📊", label: "Under $100,000", sub: "Early stage or part-time" },
+        { icon: "📈", label: "$100k – $300k", sub: "Established small business" },
+        { icon: "💹", label: "$300k – $750k", sub: "Growing business" },
+        { icon: "🏢", label: "$750k – $2M", sub: "Mid-market operator" },
+        { icon: "🏭", label: "Over $2M", sub: "Enterprise or multi-entity" },
+      ]
+    },
+    {
+      question: "What's your current tax situation?",
+      sub: "This tells us how much room there is to optimize.",
+      options: [
+        { icon: "😰", label: "Preparing taxes myself", sub: "No professional support yet" },
+        { icon: "📁", label: "Seasonal preparer only", sub: "No year-round advisory" },
+        { icon: "💼", label: "Have a CPA but limited contact", sub: "Reactive, not proactive" },
+        { icon: "✅", label: "Already well-structured", sub: "Looking for a second opinion" },
+      ]
+    }
+  ]
+};
+
+const savingsMatrix = {
+  // [businessType][revenueRange] = [low, high] savings
+  0: { 0: [800,2200], 1: [2500,6000], 2: [6000,14000], 3: [14000,28000], 4: [28000,60000] },
+  1: { 0: [600,1800], 1: [2000,5000], 2: [5000,12000], 3: [12000,24000], 4: [24000,50000] },
+  2: { 0: [1000,3000], 1: [3000,8000], 2: [8000,18000], 3: [18000,35000], 4: [35000,75000] },
+  3: { 0: [700,2000], 1: [2200,6000], 2: [6000,15000], 3: [15000,30000], 4: [30000,65000] },
+  4: { 0: [500,1500], 1: [1800,4500], 2: [4500,11000], 3: [11000,22000], 4: [22000,45000] },
+};
+
+const situationMultiplier = [1.8, 1.5, 1.2, 0.6];
+
+function renderEstimator() {
+  const body = document.getElementById('estBody');
+  const { step, answers, steps } = estData;
+
+  // Update dots
+  for (let i = 0; i < 3; i++) {
+    const dot = document.getElementById(`dot${i}`);
+    dot.className = 'est-step-dot' + (i === step ? ' active' : i < step ? ' done' : '');
+  }
+
+  if (step >= 3) {
+    // Show result
+    const bType = answers[0];
+    const rev = answers[1];
+    const situation = answers[2];
+    const base = savingsMatrix[bType]?.[rev] || [1000, 4000];
+    const mult = situationMultiplier[situation] || 1;
+    const low = Math.round(base[0] * mult / 100) * 100;
+    const high = Math.round(base[1] * mult / 100) * 100;
+    const fmt = n => '$' + n.toLocaleString();
+
+    const breakdownItems = [
+      ['Missed deductions estimate', `${fmt(Math.round(low * 0.55 / 50)*50)} – ${fmt(Math.round(high * 0.55 / 50)*50)}`],
+      ['Filing optimization', `${fmt(Math.round(low * 0.25 / 50)*50)} – ${fmt(Math.round(high * 0.25 / 50)*50)}`],
+      ['Compliance risk avoided', `${fmt(Math.round(low * 0.2 / 50)*50)} – ${fmt(Math.round(high * 0.2 / 50)*50)}`],
+    ];
+
+    body.innerHTML = `
+      <div class="est-result show">
+        <div class="est-result-hero">
+          <div class="est-result-label">Estimated Annual Opportunity</div>
+          <div class="est-result-range">${fmt(low)} – <em>${fmt(high)}</em></div>
+          <div class="est-result-sub">Based on businesses similar to yours in Orlando. Actual results require a full review.</div>
+        </div>
+        <div class="est-result-breakdown">
+          ${breakdownItems.map(([l,v]) => `
+            <div class="est-breakdown-item">
+              <span class="est-breakdown-label">${l}</span>
+              <span class="est-breakdown-value">${v}</span>
+            </div>
+          `).join('')}
+        </div>
+        <div class="est-disclaimer">
+          These are directional estimates only. Your actual savings depend on your specific situation, filing history, and applicable deductions. A full review is required for precise figures.
+        </div>
+        <div style="display:flex;gap:10px;flex-direction:column;">
+          <a href="#contact" class="est-btn-next" style="justify-content:center;text-decoration:none;">
+            Get a Real Review →
+          </a>
+          <button class="est-btn-back" onclick="resetEstimator()">Start over</button>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  const s = steps[step];
+  body.innerHTML = `
+    <div class="est-question">${s.question}</div>
+    <div class="est-sub">${s.sub}</div>
+    <div class="est-options">
+      ${s.options.map((o, i) => `
+        <button class="est-option ${answers[step] === i ? 'selected' : ''}" onclick="selectOption(${i})">
+          <span class="est-option-icon">${o.icon}</span>
+          <span class="est-option-text">
+            <span class="est-option-label">${o.label}</span>
+            <span class="est-option-sub">${o.sub}</span>
+          </span>
+        </button>
+      `).join('')}
+    </div>
+    <div class="est-nav">
+      ${step > 0 ? `<button class="est-btn-back" onclick="estBack()">Back</button>` : ''}
+      <button class="est-btn-next" onclick="estNext()" ${answers[step] === undefined ? 'disabled' : ''} id="estNextBtn">
+        ${step === 2 ? 'See my estimate' : 'Continue'} →
+      </button>
+    </div>
+  `;
+}
+
+function selectOption(i) {
+  estData.answers[estData.step] = i;
+  renderEstimator();
+}
+
+function estNext() {
+  if (estData.answers[estData.step] === undefined) return;
+  estData.step++;
+  renderEstimator();
+}
+
+function estBack() {
+  estData.step = Math.max(0, estData.step - 1);
+  renderEstimator();
+}
+
+function resetEstimator() {
+  estData.step = 0;
+  estData.answers = {};
+  renderEstimator();
+}
+
+// ══════════════════════════════════
+// AI ASSISTANT
+// ══════════════════════════════════
+let aiConversation = [];
+let isAiLoading = false;
+
+const SYSTEM_PROMPT = `You are the MaxTax AI advisor for Orlando MaxTax Solutions & Accounting Services — a boutique tax and accounting firm in Orlando, Florida. You specialize in:
+- Business tax filing (corporate, LLC, S-Corp, C-Corp)
+- Sales tax, payroll tax, and 2290 Heavy Vehicle Use Tax for trucking/transportation
+- Bookkeeping and financial reporting
+- Strategic tax planning and entity setup
+- IRS compliance and deadlines
+
+Your tone: professional, warm, knowledgeable, concise. You're like a trusted advisor in a chat window — not a robot. Give helpful, specific answers. When someone describes their business, ask a targeted follow-up question and then suggest which MaxTax services would help them. Always keep responses under 120 words. Never give legal advice — you provide information and recommend they book a call for specifics. End responses with a natural follow-up question or a CTA to "Request a Call" when appropriate.`;
+
+async function sendMessage() {
+  const input = document.getElementById('aiInput');
+  const msg = input.value.trim();
+  if (!msg || isAiLoading) return;
+
+  appendMessage('user', msg);
+  input.value = '';
+  input.style.height = 'auto';
+  aiConversation.push({ role: 'user', content: msg });
+
+  // Hide quick prompts after first message
+  document.getElementById('quickPrompts').style.display = 'none';
+
+  await getAIResponse();
+}
+
+function sendQuickPrompt(btn) {
+  const msg = btn.textContent;
+  document.getElementById('aiInput').value = msg;
+  sendMessage();
+}
+
+function appendMessage(role, content) {
+  const container = document.getElementById('aiMessages');
+  const msg = document.createElement('div');
+  msg.className = `msg ${role}`;
+  msg.innerHTML = `
+    <div class="msg-avatar">${role === 'ai' ? 'M' : '👤'}</div>
+    <div class="msg-bubble">${content}</div>
+  `;
+  container.appendChild(msg);
+  container.scrollTop = container.scrollHeight;
+}
+
+function showTyping() {
+  const container = document.getElementById('aiMessages');
+  const typing = document.createElement('div');
+  typing.className = 'msg ai';
+  typing.id = 'typingIndicator';
+  typing.innerHTML = `
+    <div class="msg-avatar">M</div>
+    <div class="ai-typing">
+      <span></span><span></span><span></span>
+    </div>
+  `;
+  container.appendChild(typing);
+  container.scrollTop = container.scrollHeight;
+}
+
+function removeTyping() {
+  const t = document.getElementById('typingIndicator');
+  if (t) t.remove();
+}
+
+async function getAIResponse() {
+  isAiLoading = true;
+  const sendBtn = document.getElementById('aiSend');
+  sendBtn.disabled = true;
+  showTyping();
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: SYSTEM_PROMPT,
+        messages: aiConversation
+      })
+    });
+
+    const data = await response.json();
+    const reply = data.content?.[0]?.text || "I'm having trouble connecting right now. Please call us at (407) 807-2353 or use the form below.";
+
+    removeTyping();
+    appendMessage('ai', reply);
+    aiConversation.push({ role: 'assistant', content: reply });
+
+  } catch (err) {
+    removeTyping();
+    appendMessage('ai', "I'm having a connection issue. You can reach us directly at <strong>(407) 807-2353</strong> or use the contact form below — we respond within one business day.");
+  }
+
+  isAiLoading = false;
+  sendBtn.disabled = false;
+}
+
+// ══════════════════════════════════
+// BOOKING FORM
+// ══════════════════════════════════
+async function handleBookingSubmit(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const submitBtn = document.getElementById('bookingSubmit');
+  const status = document.getElementById('bookingStatus');
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Submitting...';
+  status.className = 'booking-status';
+  status.textContent = '';
+
+  const formData = new FormData(form);
+  const payload = {
+    fullName: formData.get('fullName'),
+    businessName: formData.get('businessName'),
+    email: formData.get('email'),
+    phone: formData.get('phone'),
+    role: formData.get('role'),
+    revenueRange: formData.get('revenueRange'),
+    services: [formData.get('services')],
+    description: formData.get('description'),
+    preferredDays: [],
+    bestTimeWindow: formData.get('bestTimeWindow'),
+    relationshipType: formData.get('relationshipType'),
+  };
+
+  try {
+    const response = await fetch('/api/request-call', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      throw new Error('Unable to submit right now.');
+    }
+
+    form.reset();
+    status.className = 'booking-status ok';
+    status.textContent = 'Thank you. We have received your request and will contact you soon.';
+  } catch (error) {
+    status.className = 'booking-status err';
+    status.textContent = 'We could not submit your request right now. Please call (407) 807-2353 or email info@orlandomaxtax.com.';
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Book An Appointment';
+  }
+}
+
+// Auto-resize textarea
+document.addEventListener('DOMContentLoaded', () => {
+  const input = document.getElementById('aiInput');
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+  input.addEventListener('input', () => {
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 80) + 'px';
+  });
+
+  // Build components
+  buildTicker();
+  buildDeadlineStrip();
+  renderEstimator();
+
+  // Observe scroll-animated elements
+  document.querySelectorAll('.service-card, .tcard, .deadline-card, .why-image-frame').forEach(el => {
+    observer.observe(el);
+  });
+
+  const bookingForm = document.getElementById('bookingForm');
+  if (bookingForm) {
+    bookingForm.addEventListener('submit', handleBookingSubmit);
+  }
+});
+</script>
+</body>
+</html>

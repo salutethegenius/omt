@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaxTax Solutions — Identity System</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    --navy:       #0D1F3C;
+    --navy-mid:   #162847;
+    --navy-light: #1E3560;
+    --green:      #2B6651;
+    --green-light:#3A8068;
+    --green-pale: #E6F0EC;
+    --slate:      #4A5568;
+    --stone:      #718096;
+    --warm-white: #F8F7F4;
+    --off-white:  #EEF0F2;
+    --white:      #FFFFFF;
+    --rule:       rgba(13,31,60,0.08);
+    --rule-g:     rgba(43,102,81,0.2);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #ECEEF0;
+    color: var(--navy);
+  }
+
+  /* ─── COVER ─── */
+  .cover {
+    background: var(--navy);
+    padding: 84px 72px 80px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 48px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 3px solid var(--green);
+  }
+
+  /* Ledger line texture */
+  .cover::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(
+      0deg,
+      transparent, transparent 32px,
+      rgba(255,255,255,0.025) 32px,
+      rgba(255,255,255,0.025) 33px
+    );
+  }
+
+  .cover-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.22em;
+    color: var(--green-light); text-transform: uppercase;
+    margin-bottom: 26px; position: relative;
+    display: flex; align-items: center; gap: 14px;
+  }
+
+  .cover-tag::before {
+    content: '';
+    display: block; width: 32px; height: 1px;
+    background: var(--green-light);
+  }
+
+  .cover h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 82px; color: var(--white);
+    line-height: 0.92; letter-spacing: -0.02em;
+    position: relative;
+  }
+
+  .cover h1 span { color: var(--green-light); font-style: italic; }
+
+  .cover-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px; color: rgba(255,255,255,0.25);
+    letter-spacing: 0.08em; margin-top: 22px;
+    line-height: 2.1; position: relative;
+  }
+
+  .cover-meta {
+    text-align: right; font-family: 'DM Mono', monospace;
+    font-size: 10px; color: rgba(255,255,255,0.2);
+    letter-spacing: 0.1em; line-height: 2.4; position: relative;
+  }
+
+  .cover-meta strong { color: var(--green-light); font-weight: 500; display: block; }
+
+  /* ─── SECTIONS ─── */
+  .section { padding: 80px 72px; border-bottom: 1px solid var(--rule); }
+  .s-warm    { background: var(--warm-white); }
+  .s-white   { background: var(--white); }
+  .s-navy    { background: var(--navy); }
+  .s-navy2   { background: var(--navy-mid); }
+  .s-pale    { background: var(--green-pale); }
+  .s-off     { background: var(--off-white); }
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace; font-size: 9.5px;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--green); margin-bottom: 10px;
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  .eyebrow::before {
+    content: ''; display: block;
+    width: 28px; height: 1px; background: var(--green);
+  }
+
+  .section-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 38px; letter-spacing: -0.02em;
+    color: var(--navy); margin-bottom: 52px;
+    padding-bottom: 24px; border-bottom: 1px solid var(--rule);
+    line-height: 1.15;
+  }
+
+  .s-navy .section-title,
+  .s-navy2 .section-title { color: var(--white); border-bottom-color: rgba(255,255,255,0.07); }
+
+  /* ─── CELLS ─── */
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3px; margin-bottom: 3px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; margin-bottom: 3px; }
+
+  .cell {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 56px 32px 44px; position: relative; min-height: 220px;
+  }
+
+  .c-warm   { background: var(--warm-white); }
+  .c-white  { background: var(--white); }
+  .c-navy   { background: var(--navy); }
+  .c-navy2  { background: var(--navy-mid); }
+  .c-green  { background: var(--green); }
+  .c-pale   { background: var(--green-pale); }
+  .c-off    { background: var(--off-white); }
+  .c-gray   { background: #DDE0E4; }
+
+  .tag {
+    position: absolute; bottom: 13px; left: 18px;
+    font-family: 'DM Mono', monospace; font-size: 8.5px;
+    letter-spacing: 0.13em; text-transform: uppercase; opacity: 0.3;
+  }
+  .tag-d { color: var(--white); }
+  .tag-l { color: var(--navy); }
+
+  /* ─── ANNOT ─── */
+  .annot { display: grid; grid-template-columns: 1fr 300px; gap: 64px; align-items: start; margin-top: 48px; }
+  .annot-body h3 { font-family: 'Libre Baskerville', serif; font-size: 24px; color: var(--navy); margin-bottom: 14px; letter-spacing: -0.01em; }
+  .s-navy .annot-body h3, .s-navy2 .annot-body h3 { color: var(--white); }
+  .annot-body p { font-size: 13.5px; line-height: 1.8; color: var(--slate); margin-bottom: 14px; }
+  .s-navy .annot-body p, .s-navy2 .annot-body p { color: rgba(255,255,255,0.45); }
+
+  .spec-list { list-style: none; border-top: 1px solid var(--rule); padding-top: 18px; margin-top: 18px; }
+  .s-navy .spec-list, .s-navy2 .spec-list { border-top-color: rgba(255,255,255,0.07); }
+  .spec-list li { font-family: 'DM Mono', monospace; font-size: 10.5px; color: var(--green); letter-spacing: 0.04em; padding: 5px 0; display: flex; gap: 10px; line-height: 1.5; }
+  .spec-list li::before { content: '→'; flex-shrink: 0; }
+
+  /* ─── SWATCHES ─── */
+  .swatch-row { display: grid; grid-template-columns: repeat(5,1fr); gap: 3px; }
+  .swatch { height: 110px; display: flex; align-items: flex-end; padding: 14px; }
+  .sw-info { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.06em; line-height: 2; }
+
+  /* ─── FAV ─── */
+  .fav-strip { display: flex; gap: 36px; align-items: flex-end; padding: 52px 48px; background: var(--navy-mid); flex-wrap: wrap; }
+  .fav-item { display: flex; flex-direction: column; align-items: center; gap: 11px; }
+  .fav-lbl { font-family: 'DM Mono', monospace; font-size: 8.5px; color: rgba(255,255,255,0.25); letter-spacing: 0.1em; }
+  .fav-div { width:1px; height:64px; background: rgba(255,255,255,0.08); align-self: center; margin: 0 8px; }
+  .fav-sec { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--green-light); letter-spacing: 0.15em; text-transform: uppercase; writing-mode: vertical-rl; transform: rotate(180deg); align-self: center; }
+
+  /* ─── GREEN RULE ─── */
+  .green-rule { height: 1px; background: var(--green); opacity: 0.2; }
+
+  /* ─── FOOTER ─── */
+  .footer { background: var(--navy); padding: 40px 72px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--rule-g); }
+  .footer-l { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.18); letter-spacing: 0.09em; line-height: 2.1; }
+  .footer-r { font-family: 'Libre Baskerville', serif; font-size: 13px; font-style: italic; color: var(--green-light); letter-spacing: 0.02em; opacity: 0.65; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ COVER ══════════════════ -->
+<div class="cover">
+  <div>
+    <div class="cover-tag">MaxTax Solutions & Accounting — Identity System</div>
+    <h1>Logo<br><span>Geometry</span></h1>
+    <div class="cover-sub">
+      orlandomaxtax.com · Orlando, Florida<br>
+      Three Concept Directions · v1.0<br>
+      Boutique Tax Advisory · SME Financial Partner
+    </div>
+  </div>
+  <div class="cover-meta">
+    <strong>The Ledger Mark</strong>
+    Primary · MT + rule concept<br>
+    <br>
+    <strong>The Column Mark</strong>
+    Growth · Structure<br>
+    <br>
+    <strong>The Bracket Mark</strong>
+    Balance sheet geometry
+  </div>
+</div>
+
+<div class="green-rule"></div>
+
+
+<!-- ══════════════════ DESIGN RATIONALE ══════════════════ -->
+<div class="section s-pale" style="padding: 52px 72px;">
+  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 56px;">
+    <div>
+      <div class="eyebrow" style="margin-bottom: 16px;">The Font Logic</div>
+      <p style="font-family:'Libre Baskerville',serif; font-size:28px; color:var(--navy); font-weight:700; line-height:1.15; margin-bottom:12px;">Libre<br>Baskerville</p>
+      <p style="font-size:12.5px; color:var(--slate); line-height:1.8;">Classic, trustworthy, substantial. The same category as law firms, banks, and established advisory practices. Communicates that this is not a seasonal pop-up — this is a permanent institution.</p>
+    </div>
+    <div>
+      <div class="eyebrow" style="margin-bottom: 16px;">Paired With</div>
+      <p style="font-family:'Plus Jakarta Sans',sans-serif; font-size:24px; font-weight:700; color:var(--navy); line-height:1.15; margin-bottom:12px;">Plus Jakarta Sans</p>
+      <p style="font-size:12.5px; color:var(--slate); line-height:1.8;">Modern, geometric, highly legible at all sizes. Handles sublines, labels, pricing, and navigation. Grounds the classical Baskerville in a contemporary context — advisory and accessible at once.</p>
+    </div>
+    <div>
+      <div class="eyebrow" style="margin-bottom: 16px;">The Green Signal</div>
+      <p style="font-size:12.5px; color:var(--slate); line-height:1.8; margin-top: 8px;">This is not lime green. Not emerald. Not startup-green. This is accounting green — muted, deliberate, the colour of a well-kept ledger. It signals financial health, not energy. It never shouts. It confirms.</p>
+      <div style="display:flex; gap:8px; margin-top:20px;">
+        <div style="width:40px; height:6px; background:var(--green); border-radius:3px;"></div>
+        <div style="width:24px; height:6px; background:var(--green-light); border-radius:3px; opacity:0.7;"></div>
+        <div style="width:16px; height:6px; background:var(--green-pale); border-radius:3px; border:1px solid rgba(43,102,81,0.2);"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="green-rule"></div>
+
+
+<!-- ══════════════════ OPTION 01: LEDGER MARK ══════════════════ -->
+<div class="section s-white">
+  <div class="eyebrow">Concept 01 — Primary Recommendation</div>
+  <div class="section-title">The Ledger Mark</div>
+
+  <div class="grid-3">
+    <!-- Light -->
+    <div class="cell c-warm">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- M: two vertical legs + two diagonal strokes meeting at center -->
+        <rect x="6"  y="10" width="9" height="52" rx="2" fill="#0D1F3C"/>
+        <rect x="65" y="10" width="9" height="52" rx="2" fill="#0D1F3C"/>
+        <!-- M diagonals: left down, right up -->
+        <polygon points="6,10 15,10 40,36 40,48 31,48" fill="#0D1F3C"/>
+        <polygon points="74,10 65,10 40,36 40,48 49,48" fill="#0D1F3C"/>
+
+        <!-- THE LEDGER LINE: green horizontal rule cutting across the middle -->
+        <rect x="0" y="43" width="80" height="3.5" rx="1.75" fill="#2B6651"/>
+
+        <!-- MT bracket: subtle right side -->
+        <!-- T vertical (right side of mark, shared) implied by the rule -->
+      </svg>
+      <div class="tag tag-l">Mark Only · Light</div>
+    </div>
+
+    <!-- Dark -->
+    <div class="cell c-navy">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="6"  y="10" width="9" height="52" rx="2" fill="white"/>
+        <rect x="65" y="10" width="9" height="52" rx="2" fill="white"/>
+        <polygon points="6,10 15,10 40,36 40,48 31,48" fill="white"/>
+        <polygon points="74,10 65,10 40,36 40,48 49,48" fill="white"/>
+        <rect x="0" y="43" width="80" height="3.5" rx="1.75" fill="#3A8068"/>
+      </svg>
+      <div class="tag tag-d">Mark Only · Dark</div>
+    </div>
+
+    <!-- Green bg -->
+    <div class="cell c-green">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="6"  y="10" width="9" height="52" rx="2" fill="white"/>
+        <rect x="65" y="10" width="9" height="52" rx="2" fill="white"/>
+        <polygon points="6,10 15,10 40,36 40,48 31,48" fill="white"/>
+        <polygon points="74,10 65,10 40,36 40,48 49,48" fill="white"/>
+        <rect x="0" y="43" width="80" height="3.5" rx="1.75" fill="rgba(255,255,255,0.5)"/>
+      </svg>
+      <div class="tag tag-d">On Green</div>
+    </div>
+  </div>
+
+  <!-- Full lockups -->
+  <div class="grid-3" style="margin-bottom:0;">
+    <!-- Light lockup -->
+    <div class="cell c-white" style="padding:36px 28px; min-height:160px; align-items:flex-start;">
+      <svg width="310" height="72" viewBox="0 0 310 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Small mark -->
+        <rect x="4"  y="8" width="6" height="40" rx="1.5" fill="#0D1F3C"/>
+        <rect x="46" y="8" width="6" height="40" rx="1.5" fill="#0D1F3C"/>
+        <polygon points="4,8 10,8 28,26 28,34 22,34" fill="#0D1F3C"/>
+        <polygon points="52,8 46,8 28,26 28,34 34,34" fill="#0D1F3C"/>
+        <rect x="0" y="33" width="56" height="3" rx="1.5" fill="#2B6651"/>
+        <!-- Wordmark -->
+        <text x="68" y="36" font-family="'Libre Baskerville',serif" font-size="32" font-weight="700" fill="#0D1F3C" letter-spacing="-0.5">Max</text>
+        <text x="128" y="36" font-family="'Libre Baskerville',serif" font-size="32" font-weight="700" font-style="italic" fill="#2B6651" letter-spacing="-0.5">Tax</text>
+        <!-- Sub -->
+        <text x="68" y="54" font-family="'Plus Jakarta Sans',sans-serif" font-size="9" font-weight="500" fill="#718096" letter-spacing="1.5">SOLUTIONS & ACCOUNTING</text>
+        <text x="68" y="66" font-family="'DM Mono',monospace" font-size="8" fill="#9AA5B4" letter-spacing="1">ORLANDO, FLORIDA</text>
+      </svg>
+      <div class="tag tag-l">Full Lockup · Light</div>
+    </div>
+
+    <!-- Dark lockup -->
+    <div class="cell c-navy" style="padding:36px 28px; min-height:160px; align-items:flex-start;">
+      <svg width="310" height="72" viewBox="0 0 310 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4"  y="8" width="6" height="40" rx="1.5" fill="white"/>
+        <rect x="46" y="8" width="6" height="40" rx="1.5" fill="white"/>
+        <polygon points="4,8 10,8 28,26 28,34 22,34" fill="white"/>
+        <polygon points="52,8 46,8 28,26 28,34 34,34" fill="white"/>
+        <rect x="0" y="33" width="56" height="3" rx="1.5" fill="#3A8068"/>
+        <text x="68" y="36" font-family="'Libre Baskerville',serif" font-size="32" font-weight="700" fill="white" letter-spacing="-0.5">Max</text>
+        <text x="128" y="36" font-family="'Libre Baskerville',serif" font-size="32" font-weight="700" font-style="italic" fill="#3A8068" letter-spacing="-0.5">Tax</text>
+        <text x="68" y="54" font-family="'Plus Jakarta Sans',sans-serif" font-size="9" font-weight="500" fill="rgba(255,255,255,0.4)" letter-spacing="1.5">SOLUTIONS & ACCOUNTING</text>
+        <text x="68" y="66" font-family="'DM Mono',monospace" font-size="8" fill="rgba(255,255,255,0.2)" letter-spacing="1">ORLANDO, FLORIDA</text>
+      </svg>
+      <div class="tag tag-d">Full Lockup · Dark</div>
+    </div>
+
+    <!-- Stacked -->
+    <div class="cell c-pale" style="padding:36px 28px; min-height:160px;">
+      <svg width="180" height="120" viewBox="0 0 180 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Centered mark -->
+        <rect x="54" y="4" width="6" height="40" rx="1.5" fill="#0D1F3C"/>
+        <rect x="96" y="4" width="6" height="40" rx="1.5" fill="#0D1F3C"/>
+        <polygon points="54,4 60,4 78,22 78,30 72,30" fill="#0D1F3C"/>
+        <polygon points="102,4 96,4 78,22 78,30 84,30" fill="#0D1F3C"/>
+        <rect x="46" y="29" width="68" height="3" rx="1.5" fill="#2B6651"/>
+        <!-- Stacked wordmark -->
+        <text x="90" y="66" font-family="'Libre Baskerville',serif" font-size="36" font-weight="700" fill="#0D1F3C" text-anchor="middle" letter-spacing="-0.5">Max<tspan font-style="italic" fill="#2B6651">Tax</tspan></text>
+        <!-- Green rule -->
+        <line x1="36" y1="74" x2="144" y2="74" stroke="#2B6651" stroke-width="0.75" opacity="0.35"/>
+        <text x="90" y="86" font-family="'Plus Jakarta Sans',sans-serif" font-size="8" font-weight="600" fill="#4A5568" text-anchor="middle" letter-spacing="1.8">SOLUTIONS & ACCOUNTING</text>
+        <text x="90" y="100" font-family="'DM Mono',monospace" font-size="7.5" fill="#9AA5B4" text-anchor="middle" letter-spacing="1.2">ORLANDO · FLORIDA</text>
+      </svg>
+      <div class="tag tag-l">Stacked</div>
+    </div>
+  </div>
+
+  <!-- Hero lockup on off-white -->
+  <div style="background: var(--off-white); padding:40px 56px; margin-top:3px; display:flex; align-items:center;">
+    <svg width="480" height="56" viewBox="0 0 480 56" fill="none">
+      <rect x="4"  y="6" width="8" height="42" rx="2" fill="#0D1F3C"/>
+      <rect x="60" y="6" width="8" height="42" rx="2" fill="#0D1F3C"/>
+      <polygon points="4,6 12,6 36,28 36,38 28,38" fill="#0D1F3C"/>
+      <polygon points="68,6 60,6 36,28 36,38 44,38" fill="#0D1F3C"/>
+      <rect x="0" y="37" width="72" height="4" rx="2" fill="#2B6651"/>
+      <text x="88" y="38" font-family="'Libre Baskerville',serif" font-size="38" font-weight="700" fill="#0D1F3C" letter-spacing="-0.5">Max</text>
+      <text x="190" y="38" font-family="'Libre Baskerville',serif" font-size="38" font-weight="700" font-style="italic" fill="#2B6651" letter-spacing="-0.5">Tax</text>
+      <text x="88" y="52" font-family="'Plus Jakarta Sans',sans-serif" font-size="9.5" font-weight="500" fill="#9AA5B4" letter-spacing="2">SOLUTIONS & ACCOUNTING SERVICES · ORLANDO</text>
+    </svg>
+  </div>
+
+  <div class="annot">
+    <div></div>
+    <div class="annot-body">
+      <h3>The Ledger Mark</h3>
+      <p>The M is constructed from two vertical columns and two diagonal strokes — exactly as a structured M should be in a serif context, but abstracted to geometric blocks. The green ledger line runs the full width of the mark at the mid-point.</p>
+      <p>That horizontal rule is the differentiating element. It references the accounting ledger, the balance sheet dividing line, and the ruled paper of financial records — without depicting any of them literally.</p>
+      <ul class="spec-list">
+        <li>"Max" — Libre Baskerville 700, upright, navy</li>
+        <li>"Tax" — Libre Baskerville 700, italic, green</li>
+        <li>Italic "Tax" signals action — the service being performed</li>
+        <li>Green ledger line: full-width at mark midpoint</li>
+        <li>Sub: Plus Jakarta Sans 500, all caps, +1.5px tracking</li>
+        <li>Mark stands alone as favicon without wordmark</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="green-rule"></div>
+
+
+<!-- ══════════════════ OPTION 02: COLUMN MARK ══════════════════ -->
+<div class="section s-navy">
+  <div class="eyebrow">Concept 02 — Growth / Structure</div>
+  <div class="section-title">The Column Mark</div>
+
+  <div class="grid-3">
+    <!-- Light -->
+    <div class="cell c-warm">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Three ascending columns forming MT in negative space -->
+        <!-- Column 1 — short (left foot of M) -->
+        <rect x="6"  y="36" width="14" height="38" rx="2" fill="#0D1F3C"/>
+        <!-- Column 2 — tallest (peak of M / stem of T) -->
+        <rect x="26" y="8"  width="14" height="66" rx="2" fill="#0D1F3C"/>
+        <!-- Column 3 — medium (right of T) -->
+        <rect x="46" y="22" width="14" height="52" rx="2" fill="#0D1F3C"/>
+        <!-- Column 4 — short right anchor -->
+        <rect x="66" y="36" width="8"  height="38" rx="2" fill="#0D1F3C" opacity="0.3"/>
+
+        <!-- Green cap bar on tallest column — the T crossbar -->
+        <rect x="14" y="8" width="38" height="6" rx="3" fill="#2B6651"/>
+
+        <!-- Baseline rule -->
+        <rect x="0" y="72" width="80" height="2.5" rx="1.25" fill="#2B6651" opacity="0.4"/>
+      </svg>
+      <div class="tag tag-l">Column · Light</div>
+    </div>
+
+    <!-- Dark -->
+    <div class="cell c-navy2">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="6"  y="36" width="14" height="38" rx="2" fill="white"/>
+        <rect x="26" y="8"  width="14" height="66" rx="2" fill="white"/>
+        <rect x="46" y="22" width="14" height="52" rx="2" fill="white"/>
+        <rect x="66" y="36" width="8"  height="38" rx="2" fill="white" opacity="0.25"/>
+        <rect x="14" y="8" width="38" height="6" rx="3" fill="#3A8068"/>
+        <rect x="0" y="72" width="80" height="2.5" rx="1.25" fill="#3A8068" opacity="0.45"/>
+      </svg>
+      <div class="tag tag-d">Column · Dark</div>
+    </div>
+
+    <!-- Green -->
+    <div class="cell c-green">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="6"  y="36" width="14" height="38" rx="2" fill="white"/>
+        <rect x="26" y="8"  width="14" height="66" rx="2" fill="white"/>
+        <rect x="46" y="22" width="14" height="52" rx="2" fill="white"/>
+        <rect x="66" y="36" width="8"  height="38" rx="2" fill="white" opacity="0.3"/>
+        <rect x="14" y="8" width="38" height="6" rx="3" fill="#0D1F3C" opacity="0.5"/>
+        <rect x="0" y="72" width="80" height="2.5" rx="1.25" fill="rgba(255,255,255,0.3)"/>
+      </svg>
+      <div class="tag tag-d">On Green</div>
+    </div>
+  </div>
+
+  <!-- Lockups -->
+  <div class="grid-3" style="margin-bottom:0;">
+    <div class="cell c-white" style="padding:36px 28px; min-height:160px; align-items:flex-start;">
+      <svg width="310" height="72" viewBox="0 0 310 72" fill="none">
+        <!-- Small column mark -->
+        <rect x="4"  y="28" width="9" height="26" rx="1.5" fill="#0D1F3C"/>
+        <rect x="17" y="10" width="9" height="44" rx="1.5" fill="#0D1F3C"/>
+        <rect x="30" y="18" width="9" height="36" rx="1.5" fill="#0D1F3C"/>
+        <rect x="9" y="10" width="25" height="5" rx="2.5" fill="#2B6651"/>
+        <rect x="0" y="52" width="42" height="2" rx="1" fill="#2B6651" opacity="0.4"/>
+        <!-- Wordmark -->
+        <text x="54" y="38" font-family="'Libre Baskerville',serif" font-size="32" font-weight="700" fill="#0D1F3C" letter-spacing="-0.5">Max</text>
+        <text x="114" y="38" font-family="'Libre Baskerville',serif" font-size="32" font-weight="700" font-style="italic" fill="#2B6651" letter-spacing="-0.5">Tax</text>
+        <text x="54" y="54" font-family="'Plus Jakarta Sans',sans-serif" font-size="9" font-weight="500" fill="#718096" letter-spacing="1.5">SOLUTIONS & ACCOUNTING</text>
+        <text x="54" y="66" font-family="'DM Mono',monospace" font-size="8" fill="#9AA5B4" letter-spacing="1">ORLANDO, FLORIDA</text>
+      </svg>
+      <div class="tag tag-l">Full Lockup · Light</div>
+    </div>
+
+    <div class="cell c-navy" style="padding:36px 28px; min-height:160px; align-items:flex-start;">
+      <svg width="310" height="72" viewBox="0 0 310 72" fill="none">
+        <rect x="4"  y="28" width="9" height="26" rx="1.5" fill="white"/>
+        <rect x="17" y="10" width="9" height="44" rx="1.5" fill="white"/>
+        <rect x="30" y="18" width="9" height="36" rx="1.5" fill="white"/>
+        <rect x="9" y="10" width="25" height="5" rx="2.5" fill="#3A8068"/>
+        <rect x="0" y="52" width="42" height="2" rx="1" fill="#3A8068" opacity="0.4"/>
+        <text x="54" y="38" font-family="'Libre Baskerville',serif" font-size="32" font-weight="700" fill="white" letter-spacing="-0.5">Max</text>
+        <text x="114" y="38" font-family="'Libre Baskerville',serif" font-size="32" font-weight="700" font-style="italic" fill="#3A8068" letter-spacing="-0.5">Tax</text>
+        <text x="54" y="54" font-family="'Plus Jakarta Sans',sans-serif" font-size="9" font-weight="500" fill="rgba(255,255,255,0.38)" letter-spacing="1.5">SOLUTIONS & ACCOUNTING</text>
+        <text x="54" y="66" font-family="'DM Mono',monospace" font-size="8" fill="rgba(255,255,255,0.2)" letter-spacing="1">ORLANDO, FLORIDA</text>
+      </svg>
+      <div class="tag tag-d">Full Lockup · Dark</div>
+    </div>
+
+    <div class="cell c-pale" style="padding:36px 28px; min-height:160px;">
+      <div style="font-family:'DM Mono',monospace; font-size:11px; color:var(--green); line-height:2; letter-spacing:0.04em; text-align:left;">
+        <span style="color:var(--navy); font-weight:500;">Suits best:</span><br>
+        Financial report covers<br>
+        Presentation decks<br>
+        Business card vertical<br>
+        Email signature
+      </div>
+      <div class="tag tag-l">Context Note</div>
+    </div>
+  </div>
+
+  <div class="annot">
+    <div></div>
+    <div class="annot-body">
+      <h3>The Column Mark</h3>
+      <p>Four vertical rectangles of ascending heights with a green cap bar across the top of the tallest — the T crossbar in hidden form. The ascending columns read as a bar chart, as architectural columns, as financial growth over time.</p>
+      <p>The green cap doesn't just mark the T. It marks the ceiling — the maximum, the peak, the "max" in MaxTax. Every element earns its place.</p>
+      <ul class="spec-list">
+        <li>4 columns: short / tall / medium / accent</li>
+        <li>Green cap: spans 3 tallest — T crossbar geometry</li>
+        <li>Baseline rule: green, 40% opacity — the ledger floor</li>
+        <li>Column 4: 30% opacity — secondary/shadow column</li>
+        <li>Reads as growth chart at a glance, letters on closer look</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="green-rule"></div>
+
+
+<!-- ══════════════════ OPTION 03: BRACKET MARK ══════════════════ -->
+<div class="section s-off">
+  <div class="eyebrow">Concept 03 — Balance Sheet Geometry</div>
+  <div class="section-title">The Bracket Mark</div>
+
+  <div class="grid-3">
+    <!-- Light -->
+    <div class="cell c-white">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Left accounting bracket: [ -->
+        <rect x="6" y="8" width="4" height="64" rx="2" fill="#0D1F3C"/>
+        <rect x="6" y="8" width="16" height="4" rx="2" fill="#0D1F3C"/>
+        <rect x="6" y="68" width="16" height="4" rx="2" fill="#0D1F3C"/>
+        <!-- Right accounting bracket: ] -->
+        <rect x="70" y="8" width="4" height="64" rx="2" fill="#0D1F3C"/>
+        <rect x="58" y="8" width="16" height="4" rx="2" fill="#0D1F3C"/>
+        <rect x="58" y="68" width="16" height="4" rx="2" fill="#0D1F3C"/>
+
+        <!-- MT inside: simplified letterforms -->
+        <!-- M: two thin verticals -->
+        <rect x="22" y="16" width="4" height="40" rx="1" fill="#0D1F3C"/>
+        <rect x="38" y="16" width="4" height="40" rx="1" fill="#0D1F3C"/>
+        <polygon points="22,16 26,16 30,32 30,38 26,38" fill="#0D1F3C"/>
+        <polygon points="42,16 38,16 34,32 34,38 38,38" fill="#0D1F3C"/>
+
+        <!-- T vertical -->
+        <rect x="52" y="24" width="4" height="32" rx="1" fill="#0D1F3C"/>
+        <!-- T crossbar — green -->
+        <rect x="46" y="16" width="16" height="5" rx="2.5" fill="#2B6651"/>
+      </svg>
+      <div class="tag tag-l">Bracket · Light</div>
+    </div>
+
+    <!-- Dark -->
+    <div class="cell c-navy">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="6" y="8" width="4" height="64" rx="2" fill="white"/>
+        <rect x="6" y="8" width="16" height="4" rx="2" fill="white"/>
+        <rect x="6" y="68" width="16" height="4" rx="2" fill="white"/>
+        <rect x="70" y="8" width="4" height="64" rx="2" fill="white"/>
+        <rect x="58" y="8" width="16" height="4" rx="2" fill="white"/>
+        <rect x="58" y="68" width="16" height="4" rx="2" fill="white"/>
+        <rect x="22" y="16" width="4" height="40" rx="1" fill="white"/>
+        <rect x="38" y="16" width="4" height="40" rx="1" fill="white"/>
+        <polygon points="22,16 26,16 30,32 30,38 26,38" fill="white"/>
+        <polygon points="42,16 38,16 34,32 34,38 38,38" fill="white"/>
+        <rect x="52" y="24" width="4" height="32" rx="1" fill="white"/>
+        <rect x="46" y="16" width="16" height="5" rx="2.5" fill="#3A8068"/>
+      </svg>
+      <div class="tag tag-d">Bracket · Dark</div>
+    </div>
+
+    <!-- Green bg -->
+    <div class="cell c-green">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="6" y="8" width="4" height="64" rx="2" fill="white"/>
+        <rect x="6" y="8" width="16" height="4" rx="2" fill="white"/>
+        <rect x="6" y="68" width="16" height="4" rx="2" fill="white"/>
+        <rect x="70" y="8" width="4" height="64" rx="2" fill="white"/>
+        <rect x="58" y="8" width="16" height="4" rx="2" fill="white"/>
+        <rect x="58" y="68" width="16" height="4" rx="2" fill="white"/>
+        <rect x="22" y="16" width="4" height="40" rx="1" fill="white"/>
+        <rect x="38" y="16" width="4" height="40" rx="1" fill="white"/>
+        <polygon points="22,16 26,16 30,32 30,38 26,38" fill="white"/>
+        <polygon points="42,16 38,16 34,32 34,38 38,38" fill="white"/>
+        <rect x="52" y="24" width="4" height="32" rx="1" fill="white"/>
+        <rect x="46" y="16" width="16" height="5" rx="2.5" fill="#0D1F3C" opacity="0.5"/>
+      </svg>
+      <div class="tag tag-d">On Green</div>
+    </div>
+  </div>
+
+  <!-- Lockups -->
+  <div class="grid-3" style="margin-bottom:0;">
+    <div class="cell c-white" style="padding:36px 28px; min-height:160px; align-items:flex-start;">
+      <svg width="310" height="72" viewBox="0 0 310 72" fill="none">
+        <!-- Small bracket -->
+        <rect x="2" y="6" width="3" height="44" rx="1.5" fill="#0D1F3C"/>
+        <rect x="2" y="6" width="9" height="3" rx="1.5" fill="#0D1F3C"/>
+        <rect x="2" y="47" width="9" height="3" rx="1.5" fill="#0D1F3C"/>
+        <rect x="44" y="6" width="3" height="44" rx="1.5" fill="#0D1F3C"/>
+        <rect x="38" y="6" width="9" height="3" rx="1.5" fill="#0D1F3C"/>
+        <rect x="38" y="47" width="9" height="3" rx="1.5" fill="#0D1F3C"/>
+        <!-- MT inside small -->
+        <rect x="12" y="10" width="3" height="28" rx="1" fill="#0D1F3C"/>
+        <rect x="23" y="10" width="3" height="28" rx="1" fill="#0D1F3C"/>
+        <polygon points="12,10 15,10 19,22 19,26 16,26" fill="#0D1F3C"/>
+        <polygon points="26,10 23,10 19,22 19,26 22,26" fill="#0D1F3C"/>
+        <rect x="30" y="16" width="3" height="22" rx="1" fill="#0D1F3C"/>
+        <rect x="26" y="10" width="11" height="4" rx="2" fill="#2B6651"/>
+        <!-- Wordmark -->
+        <text x="58" y="38" font-family="'Libre Baskerville',serif" font-size="32" font-weight="700" fill="#0D1F3C" letter-spacing="-0.5">Max</text>
+        <text x="118" y="38" font-family="'Libre Baskerville',serif" font-size="32" font-weight="700" font-style="italic" fill="#2B6651" letter-spacing="-0.5">Tax</text>
+        <text x="58" y="56" font-family="'Plus Jakarta Sans',sans-serif" font-size="9" font-weight="500" fill="#718096" letter-spacing="1.5">SOLUTIONS & ACCOUNTING</text>
+      </svg>
+      <div class="tag tag-l">Full Lockup · Light</div>
+    </div>
+
+    <div class="cell c-navy" style="padding:36px 28px; min-height:160px; align-items:flex-start;">
+      <svg width="310" height="72" viewBox="0 0 310 72" fill="none">
+        <rect x="2" y="6" width="3" height="44" rx="1.5" fill="white"/>
+        <rect x="2" y="6" width="9" height="3" rx="1.5" fill="white"/>
+        <rect x="2" y="47" width="9" height="3" rx="1.5" fill="white"/>
+        <rect x="44" y="6" width="3" height="44" rx="1.5" fill="white"/>
+        <rect x="38" y="6" width="9" height="3" rx="1.5" fill="white"/>
+        <rect x="38" y="47" width="9" height="3" rx="1.5" fill="white"/>
+        <rect x="12" y="10" width="3" height="28" rx="1" fill="white"/>
+        <rect x="23" y="10" width="3" height="28" rx="1" fill="white"/>
+        <polygon points="12,10 15,10 19,22 19,26 16,26" fill="white"/>
+        <polygon points="26,10 23,10 19,22 19,26 22,26" fill="white"/>
+        <rect x="30" y="16" width="3" height="22" rx="1" fill="white"/>
+        <rect x="26" y="10" width="11" height="4" rx="2" fill="#3A8068"/>
+        <text x="58" y="38" font-family="'Libre Baskerville',serif" font-size="32" font-weight="700" fill="white" letter-spacing="-0.5">Max</text>
+        <text x="118" y="38" font-family="'Libre Baskerville',serif" font-size="32" font-weight="700" font-style="italic" fill="#3A8068" letter-spacing="-0.5">Tax</text>
+        <text x="58" y="56" font-family="'Plus Jakarta Sans',sans-serif" font-size="9" font-weight="500" fill="rgba(255,255,255,0.38)" letter-spacing="1.5">SOLUTIONS & ACCOUNTING</text>
+      </svg>
+      <div class="tag tag-d">Full Lockup · Dark</div>
+    </div>
+
+    <div class="cell c-pale" style="padding:36px 28px; min-height:160px;">
+      <div style="font-family:'DM Mono',monospace; font-size:11px; color:var(--green); line-height:2; letter-spacing:0.04em;">
+        <span style="color:var(--navy); font-weight:500;">Caution:</span><br>
+        Most complex mark<br>
+        Requires ≥ 48px to read<br>
+        Best for print / PDF<br>
+        Not ideal for favicon
+      </div>
+      <div class="tag tag-l">Scale Note</div>
+    </div>
+  </div>
+
+  <div class="annot">
+    <div></div>
+    <div class="annot-body">
+      <h3>The Bracket Mark</h3>
+      <p>The accounting bracket [ ] is how CPAs close a balance sheet. The brackets frame the MT letterforms, both protecting and presenting them. This mark says: everything is contained, everything balances.</p>
+      <p>The green T-crossbar is the only colour deviation. It marks the service — tax — as the active, performed element within the structured bracket system.</p>
+      <ul class="spec-list">
+        <li>Outer brackets: 4px vertical + 16px horizontal arms</li>
+        <li>Interior MT: same proportional stroke weight</li>
+        <li>Green T-crossbar only — everything else navy</li>
+        <li>Requires minimum 48px for full legibility</li>
+        <li>Best suited to print — letterhead, proposals, PDF covers</li>
+        <li>Not recommended as primary favicon</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="green-rule"></div>
+
+
+<!-- ══════════════════ FAVICON TESTS ══════════════════ -->
+<div class="section s-navy">
+  <div class="eyebrow">Digital Execution</div>
+  <div class="section-title">Favicon & App Icon Scale Tests</div>
+
+  <div class="fav-strip">
+    <div class="fav-sec">Ledger Mark</div>
+
+    <div class="fav-item">
+      <svg width="64" height="64" viewBox="0 0 80 80" fill="none">
+        <rect width="80" height="80" rx="16" fill="#0D1F3C"/>
+        <rect x="8"  y="12" width="7" height="46" rx="2" fill="white"/>
+        <rect x="65" y="12" width="7" height="46" rx="2" fill="white"/>
+        <polygon points="8,12 15,12 40,34 40,46 33,46" fill="white"/>
+        <polygon points="72,12 65,12 40,34 40,46 47,46" fill="white"/>
+        <rect x="0" y="44" width="80" height="4" rx="2" fill="#3A8068"/>
+      </svg>
+      <div class="fav-lbl">64px</div>
+    </div>
+
+    <div class="fav-item">
+      <svg width="48" height="48" viewBox="0 0 80 80" fill="none">
+        <rect width="80" height="80" rx="16" fill="#0D1F3C"/>
+        <rect x="8"  y="12" width="7" height="46" rx="2" fill="white"/>
+        <rect x="65" y="12" width="7" height="46" rx="2" fill="white"/>
+        <polygon points="8,12 15,12 40,34 40,46 33,46" fill="white"/>
+        <polygon points="72,12 65,12 40,34 40,46 47,46" fill="white"/>
+        <rect x="0" y="44" width="80" height="4" rx="2" fill="#3A8068"/>
+      </svg>
+      <div class="fav-lbl">48px</div>
+    </div>
+
+    <div class="fav-item">
+      <svg width="32" height="32" viewBox="0 0 80 80" fill="none">
+        <rect width="80" height="80" rx="16" fill="#0D1F3C"/>
+        <rect x="8"  y="12" width="8" height="46" rx="2" fill="white"/>
+        <rect x="64" y="12" width="8" height="46" rx="2" fill="white"/>
+        <polygon points="8,12 16,12 40,36 40,50 32,50" fill="white"/>
+        <polygon points="72,12 64,12 40,36 40,50 48,50" fill="white"/>
+        <rect x="0" y="48" width="80" height="5" rx="2" fill="#3A8068"/>
+      </svg>
+      <div class="fav-lbl">32px</div>
+    </div>
+
+    <div class="fav-item">
+      <svg width="16" height="16" viewBox="0 0 80 80" fill="none">
+        <rect width="80" height="80" rx="12" fill="#0D1F3C"/>
+        <!-- At 16px: simplified M silhouette + green bar -->
+        <rect x="8"  y="10" width="12" height="50" rx="3" fill="white"/>
+        <rect x="60" y="10" width="12" height="50" rx="3" fill="white"/>
+        <polygon points="8,10 20,10 40,38 40,54 28,54" fill="white"/>
+        <polygon points="72,10 60,10 40,38 40,54 52,54" fill="white"/>
+        <rect x="0" y="50" width="80" height="8" rx="3" fill="#3A8068"/>
+      </svg>
+      <div class="fav-lbl">16px</div>
+    </div>
+
+    <div class="fav-div"></div>
+    <div class="fav-sec">Column Mark</div>
+
+    <div class="fav-item">
+      <svg width="48" height="48" viewBox="0 0 80 80" fill="none">
+        <rect width="80" height="80" rx="16" fill="#0D1F3C"/>
+        <rect x="6"  y="36" width="14" height="38" rx="2" fill="white"/>
+        <rect x="26" y="8"  width="14" height="66" rx="2" fill="white"/>
+        <rect x="46" y="22" width="14" height="52" rx="2" fill="white"/>
+        <rect x="66" y="36" width="8"  height="38" rx="2" fill="white" opacity="0.3"/>
+        <rect x="14" y="8" width="38" height="6" rx="3" fill="#3A8068"/>
+      </svg>
+      <div class="fav-lbl">48px</div>
+    </div>
+
+    <div class="fav-item">
+      <svg width="32" height="32" viewBox="0 0 80 80" fill="none">
+        <rect width="80" height="80" rx="16" fill="#0D1F3C"/>
+        <rect x="6"  y="36" width="14" height="38" rx="2" fill="white"/>
+        <rect x="26" y="8"  width="14" height="66" rx="2" fill="white"/>
+        <rect x="46" y="22" width="14" height="52" rx="2" fill="white"/>
+        <rect x="14" y="8" width="38" height="6" rx="3" fill="#3A8068"/>
+      </svg>
+      <div class="fav-lbl">32px</div>
+    </div>
+
+    <div class="fav-item">
+      <svg width="16" height="16" viewBox="0 0 80 80" fill="none">
+        <rect width="80" height="80" rx="10" fill="#0D1F3C"/>
+        <rect x="4"  y="36" width="16" height="38" rx="3" fill="white"/>
+        <rect x="24" y="8"  width="16" height="66" rx="3" fill="white"/>
+        <rect x="44" y="22" width="16" height="52" rx="3" fill="white"/>
+        <rect x="10" y="8" width="44" height="8" rx="4" fill="#3A8068"/>
+      </svg>
+      <div class="fav-lbl">16px</div>
+    </div>
+  </div>
+
+  <div style="background:rgba(58,128,104,0.08); border:1px solid rgba(58,128,104,0.18); padding:24px 40px; font-family:'DM Mono',monospace; font-size:11px; color:rgba(255,255,255,0.45); letter-spacing:0.05em; line-height:2;">
+    At 16px: both marks reduce cleanly. Ledger Mark reads as a dark M silhouette with a green bar. Column Mark reads as three white bars with a green cap. Column Mark holds the green signal better at extreme small size.
+  </div>
+</div>
+
+<div class="green-rule"></div>
+
+
+<!-- ══════════════════ WORDMARK SYSTEM ══════════════════ -->
+<div class="section s-white">
+  <div class="eyebrow">Typography System</div>
+  <div class="section-title">Wordmark Construction</div>
+
+  <!-- Primary -->
+  <div style="background:var(--off-white); padding:64px 56px; margin-bottom:3px;">
+    <svg width="480" height="72" viewBox="0 0 480 72" fill="none">
+      <text x="0" y="58" font-family="'Libre Baskerville',serif" font-size="64" font-weight="700" fill="#0D1F3C" letter-spacing="-1.5">Max</text>
+      <text x="178" y="58" font-family="'Libre Baskerville',serif" font-size="64" font-weight="700" font-style="italic" fill="#2B6651" letter-spacing="-1.5">Tax</text>
+    </svg>
+  </div>
+
+  <div class="grid-2">
+    <div style="background:var(--white); padding:44px 40px;">
+      <div class="eyebrow" style="margin-bottom:16px;">Condensed / Nav</div>
+      <svg width="280" height="36" viewBox="0 0 280 36" fill="none">
+        <text x="0" y="28" font-family="'Libre Baskerville',serif" font-size="30" font-weight="700" fill="#0D1F3C" letter-spacing="-0.5">Max<tspan font-style="italic" fill="#2B6651">Tax</tspan></text>
+        <text x="148" y="27" font-family="'Plus Jakarta Sans',sans-serif" font-size="10" font-weight="600" fill="#9AA5B4" letter-spacing="1.5">SOLUTIONS</text>
+      </svg>
+    </div>
+    <div style="background:var(--navy); padding:44px 40px;">
+      <div class="eyebrow" style="margin-bottom:16px; color:var(--green-light);">Dark Surface</div>
+      <svg width="280" height="36" viewBox="0 0 280 36" fill="none">
+        <text x="0" y="28" font-family="'Libre Baskerville',serif" font-size="30" font-weight="700" fill="white" letter-spacing="-0.5">Max<tspan font-style="italic" fill="#3A8068">Tax</tspan></text>
+        <text x="148" y="27" font-family="'Plus Jakarta Sans',sans-serif" font-size="10" font-weight="600" fill="rgba(255,255,255,0.3)" letter-spacing="1.5">SOLUTIONS</text>
+      </svg>
+    </div>
+  </div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:3px; margin-top:3px;">
+    <div style="background:var(--green-pale); padding:28px 32px;">
+      <div style="font-family:'DM Mono',monospace; font-size:9.5px; color:var(--green); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:12px;">Max</div>
+      <p style="font-size:12.5px; color:var(--slate); line-height:1.8;">Libre Baskerville 700, upright. Deep navy. Maximum — the promise of optimization. Never italic, never green. The upright weight grounds the firm name as permanent.</p>
+    </div>
+    <div style="background:var(--green-pale); padding:28px 32px;">
+      <div style="font-family:'DM Mono',monospace; font-size:9.5px; color:var(--green); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:12px;">Tax</div>
+      <p style="font-size:12.5px; color:var(--slate); line-height:1.8;">Libre Baskerville 700, italic. Accounting green. The italic form signals motion — active service, something being performed, not just stated. Tax is the work. The italic is the work happening.</p>
+    </div>
+    <div style="background:var(--green-pale); padding:28px 32px;">
+      <div style="font-family:'DM Mono',monospace; font-size:9.5px; color:var(--green); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:12px;">Sub</div>
+      <p style="font-size:12.5px; color:var(--slate); line-height:1.8;">Plus Jakarta Sans 500–600, all caps, +1.5px tracking, stone gray. Only appears at 240px+ width. On narrow formats (nav, mobile) it drops entirely — the wordmark carries alone.</p>
+    </div>
+  </div>
+</div>
+
+<div class="green-rule"></div>
+
+
+<!-- ══════════════════ COLOR ══════════════════ -->
+<div class="section s-navy">
+  <div class="eyebrow">Brand Foundation</div>
+  <div class="section-title">Colour System</div>
+
+  <div class="swatch-row" style="margin-bottom:3px;">
+    <div class="swatch" style="background:#0D1F3C;">
+      <div class="sw-info" style="color:rgba(255,255,255,0.7);">
+        Deep Navy<br><span style="opacity:.45">#0D1F3C</span><br><span style="opacity:.45">Authority</span>
+      </div>
+    </div>
+    <div class="swatch" style="background:#2B6651;">
+      <div class="sw-info" style="color:rgba(255,255,255,0.85);">
+        Ledger Green<br><span style="opacity:.55">#2B6651</span><br><span style="opacity:.55">Precision</span>
+      </div>
+    </div>
+    <div class="swatch" style="background:#3A8068;">
+      <div class="sw-info" style="color:rgba(255,255,255,0.85);">
+        Green Light<br><span style="opacity:.55">#3A8068</span><br><span style="opacity:.55">On dark</span>
+      </div>
+    </div>
+    <div class="swatch" style="background:#4A5568;">
+      <div class="sw-info" style="color:rgba(255,255,255,0.7);">
+        Slate<br><span style="opacity:.45">#4A5568</span><br><span style="opacity:.45">Body text</span>
+      </div>
+    </div>
+    <div class="swatch" style="background:#F8F7F4; border:1px solid rgba(0,0,0,0.06);">
+      <div class="sw-info" style="color:rgba(13,31,60,0.5);">
+        Warm White<br><span style="opacity:.6">#F8F7F4</span><br><span style="opacity:.6">Backgrounds</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:rgba(43,102,81,0.08); border:1px solid rgba(43,102,81,0.18); padding:32px 40px;">
+    <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.2em; color:var(--green-light); text-transform:uppercase; margin-bottom:14px;">Why This Palette Signals Premium Advisory</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:48px;">
+      <p style="font-size:13px; color:rgba(255,255,255,0.5); line-height:1.8;">Deep navy signals financial authority without the coldness of black or the genericness of corporate blue. It is the colour of trust documents, official letterhead, and serious financial institutions. It says: <em>we have been here, we will be here.</em></p>
+      <p style="font-size:13px; color:rgba(255,255,255,0.5); line-height:1.8;">Ledger green is not an accent — it is a second primary. It marks everything in motion: the service, the CTA, the growth indicator. Muted enough to feel professional; distinctive enough to differentiate from every navy-and-blue competitor in the Orlando market.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════ RECOMMENDATION ══════════════════ -->
+<div class="section s-navy2" style="border-bottom:none;">
+  <div class="eyebrow">Strategic Recommendation</div>
+  <div class="section-title">The Verdict</div>
+
+  <div style="background:var(--navy); padding:48px 56px; display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center; border-left:3px solid var(--green);">
+    <div>
+      <div style="font-family:'DM Mono',monospace; font-size:9px; color:var(--green-light); letter-spacing:0.2em; text-transform:uppercase; margin-bottom:14px;">Primary Recommendation</div>
+      <h3 style="font-family:'Libre Baskerville',serif; font-size:26px; color:var(--white); font-weight:700; margin-bottom:18px; letter-spacing:-0.01em;">Option 01 — The Ledger Mark</h3>
+      <p style="font-size:13.5px; color:rgba(255,255,255,0.55); line-height:1.8; margin-bottom:16px;">The M-with-green-rule is immediately ownable in the Orlando market. No other accounting firm has this geometry. The ledger line communicates exactly what you do — without showing a calculator, a dollar sign, or a scale.</p>
+      <p style="font-size:13.5px; color:rgba(255,255,255,0.55); line-height:1.8;">Use Option 02 (Column Mark) as the favicon — it holds green better at 16px. Both marks are complementary, not competing.</p>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:24px;">
+      <!-- Preview of final mark -->
+      <svg width="280" height="56" viewBox="0 0 280 56" fill="none">
+        <rect x="4"  y="6" width="8" height="42" rx="2" fill="white" opacity="0.9"/>
+        <rect x="60" y="6" width="8" height="42" rx="2" fill="white" opacity="0.9"/>
+        <polygon points="4,6 12,6 36,28 36,38 28,38" fill="white" opacity="0.9"/>
+        <polygon points="68,6 60,6 36,28 36,38 44,38" fill="white" opacity="0.9"/>
+        <rect x="0" y="37" width="72" height="4" rx="2" fill="#3A8068"/>
+        <text x="84" y="36" font-family="'Libre Baskerville',serif" font-size="36" font-weight="700" fill="white" letter-spacing="-0.5">Max</text>
+        <text x="183" y="36" font-family="'Libre Baskerville',serif" font-size="36" font-weight="700" font-style="italic" fill="#3A8068" letter-spacing="-0.5">Tax</text>
+      </svg>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px;">
+        <div style="text-align:center; font-family:'DM Mono',monospace; font-size:9px; color:rgba(255,255,255,0.3); letter-spacing:0.08em; line-height:1.9; padding:12px; background:rgba(255,255,255,0.04);">STRUCTURED</div>
+        <div style="text-align:center; font-family:'DM Mono',monospace; font-size:9px; color:rgba(255,255,255,0.3); letter-spacing:0.08em; line-height:1.9; padding:12px; background:rgba(255,255,255,0.04);">TRUSTWORTHY</div>
+        <div style="text-align:center; font-family:'DM Mono',monospace; font-size:9px; color:rgba(255,255,255,0.3); letter-spacing:0.08em; line-height:1.9; padding:12px; background:rgba(255,255,255,0.04);">PRECISE</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<div class="footer">
+  <div class="footer-l">
+    MaxTax Solutions & Accounting Services<br>
+    Identity System v1.0 · Orlando, Florida<br>
+    Strategic Tax & Accounting · Year-Round Advisory
+  </div>
+  <div class="footer-r">orlandomaxtax.com</div>
+</div>
+
+</body>
+</html>
