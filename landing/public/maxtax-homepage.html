@@ -51,6 +51,29 @@ body{
   margin-right:auto;
 }
 
+.services,
+.testimonials,
+.booking{
+  position:relative;
+  overflow:hidden;
+}
+
+.services::before,
+.testimonials::before,
+.booking::before{
+  content:'M';
+  position:absolute;
+  right:-30px;
+  bottom:-80px;
+  font-family:'Libre Baskerville',serif;
+  font-size:380px;
+  font-weight:700;
+  line-height:0.85;
+  color:rgba(13,31,60,0.03);
+  pointer-events:none;
+  user-select:none;
+}
+
 /* ─── TICKER ─── */
 .ticker-bar{
   background:var(--ticker-bg);
@@ -966,7 +989,19 @@ body{
 }
 
 .est-option-icon{
-  font-size:20px;
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  background:rgba(43,102,81,0.12);
+  color:var(--green);
+  border:1px solid rgba(43,102,81,0.2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  letter-spacing:0.05em;
+  text-transform:uppercase;
   flex-shrink:0;
 }
 
@@ -1519,7 +1554,7 @@ body{
 
 .footer-brand p{
   font-size:13.5px;
-  color:rgba(255,255,255,0.35);
+  color:#F59E0B;
   line-height:1.75;
   margin-top:16px;
   max-width:280px;
@@ -1530,7 +1565,7 @@ body{
   font-size:10px;
   letter-spacing:0.18em;
   text-transform:uppercase;
-  color:rgba(255,255,255,0.3);
+  color:#F59E0B;
   margin-bottom:20px;
 }
 
@@ -1543,26 +1578,26 @@ body{
 
 .footer-links a{
   font-size:13.5px;
-  color:rgba(255,255,255,0.5);
+  color:#F59E0B;
   text-decoration:none;
   transition:color 0.2s;
   letter-spacing:0.01em;
 }
 
-.footer-links a:hover{ color:rgba(255,255,255,0.85); }
+.footer-links a:hover{ color:#ffd79b; }
 
 .footer-contact-item{
   display:flex;
   align-items:flex-start;
   gap:10px;
   font-size:13px;
-  color:rgba(255,255,255,0.5);
+  color:#F59E0B;
   margin-bottom:14px;
   line-height:1.5;
 }
 
 .footer-contact-item strong{
-  color:rgba(255,255,255,0.75);
+  color:#ffd79b;
   display:block;
   font-size:12px;
   font-family:'DM Mono',monospace;
@@ -1582,7 +1617,7 @@ body{
 .footer-bottom p{
   font-family:'DM Mono',monospace;
   font-size:10px;
-  color:rgba(255,255,255,0.2);
+  color:rgba(255,255,255,0.6);
   letter-spacing:0.06em;
 }
 
@@ -1884,7 +1919,7 @@ body{
     <a href="tel:4078072353" class="btn-primary">
       Call (407) 807-2353
     </a>
-    <a href="mailto:info@orlandomaxtax.com" class="btn-secondary" style="color:#F59E0B;">
+    <a href="mailto:orlandomackstacks@gmail.com" class="btn-secondary" style="color:#F59E0B;">
       Send an email →
     </a>
   </div>
@@ -2026,7 +2061,7 @@ body{
     <div>
       <div class="footer-col-title">Contact</div>
       <div class="footer-contact-item"><div><strong>Phone</strong>(407) 807-2353</div></div>
-      <div class="footer-contact-item"><div><strong>Email</strong>info@orlandomaxtax.com</div></div>
+      <div class="footer-contact-item"><div><strong>Email</strong>orlandomackstacks@gmail.com</div></div>
       <div class="footer-contact-item"><div><strong>Location</strong>Orlando, Florida</div></div>
       <div class="footer-contact-item"><div><strong>Hours</strong>Mon–Fri 9am–5pm · Sat by appt</div></div>
     </div>
@@ -2142,32 +2177,32 @@ const estData = {
       question: "What type of business do you operate?",
       sub: "This helps us estimate applicable deductions and filing requirements.",
       options: [
-        { icon: "🚚", label: "Transportation / Trucking", sub: "Owner-operator, fleet, freight" },
-        { icon: "🏪", label: "Retail / Restaurant", sub: "Physical store, food service" },
-        { icon: "💼", label: "Professional Services", sub: "Consulting, agency, healthcare" },
-        { icon: "🔨", label: "Construction / Trades", sub: "Contractor, subcontractor" },
-        { icon: "📦", label: "Other Small Business", sub: "E-commerce, other industries" },
+        { icon: "TRK", label: "Transportation / Trucking", sub: "Owner-operator, fleet, freight" },
+        { icon: "RET", label: "Retail / Restaurant", sub: "Physical store, food service" },
+        { icon: "PRO", label: "Professional Services", sub: "Consulting, agency, healthcare" },
+        { icon: "CON", label: "Construction / Trades", sub: "Contractor, subcontractor" },
+        { icon: "OTH", label: "Other Small Business", sub: "E-commerce, other industries" },
       ]
     },
     {
       question: "What's your approximate annual revenue?",
       sub: "We use this to estimate the typical tax exposure and savings opportunity.",
       options: [
-        { icon: "📊", label: "Under $100,000", sub: "Early stage or part-time" },
-        { icon: "📈", label: "$100k – $300k", sub: "Established small business" },
-        { icon: "💹", label: "$300k – $750k", sub: "Growing business" },
-        { icon: "🏢", label: "$750k – $2M", sub: "Mid-market operator" },
-        { icon: "🏭", label: "Over $2M", sub: "Enterprise or multi-entity" },
+        { icon: "R1", label: "Under $100,000", sub: "Early stage or part-time" },
+        { icon: "R2", label: "$100k – $300k", sub: "Established small business" },
+        { icon: "R3", label: "$300k – $750k", sub: "Growing business" },
+        { icon: "R4", label: "$750k – $2M", sub: "Mid-market operator" },
+        { icon: "R5", label: "Over $2M", sub: "Enterprise or multi-entity" },
       ]
     },
     {
       question: "What's your current tax situation?",
       sub: "This tells us how much room there is to optimize.",
       options: [
-        { icon: "😰", label: "Preparing taxes myself", sub: "No professional support yet" },
-        { icon: "📁", label: "Seasonal preparer only", sub: "No year-round advisory" },
-        { icon: "💼", label: "Have a CPA but limited contact", sub: "Reactive, not proactive" },
-        { icon: "✅", label: "Already well-structured", sub: "Looking for a second opinion" },
+        { icon: "DIY", label: "Preparing taxes myself", sub: "No professional support yet" },
+        { icon: "SEA", label: "Seasonal preparer only", sub: "No year-round advisory" },
+        { icon: "CPA", label: "Have a CPA but limited contact", sub: "Reactive, not proactive" },
+        { icon: "OPT", label: "Already well-structured", sub: "Looking for a second opinion" },
       ]
     }
   ]
@@ -2435,7 +2470,7 @@ async function handleBookingSubmit(event) {
     status.textContent = 'Thank you. We have received your request and will contact you soon.';
   } catch (error) {
     status.className = 'booking-status err';
-    status.textContent = 'We could not submit your request right now. Please call (407) 807-2353 or email info@orlandomaxtax.com.';
+    status.textContent = 'We could not submit your request right now. Please call (407) 807-2353 or email orlandomackstacks@gmail.com.';
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = 'Book An Appointment';
