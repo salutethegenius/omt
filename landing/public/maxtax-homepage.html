@@ -33,6 +33,8 @@ body{
   background:var(--white);
   color:var(--navy);
   overflow-x:hidden;
+  max-width:1360px;
+  margin:0 auto;
 }
 
 /* ─── TICKER ─── */
@@ -2276,15 +2278,6 @@ function resetEstimator() {
 let aiConversation = [];
 let isAiLoading = false;
 
-const SYSTEM_PROMPT = `You are the MaxTax AI advisor for Orlando MaxTax Solutions & Accounting Services — a boutique tax and accounting firm in Orlando, Florida. You specialize in:
-- Business tax filing (corporate, LLC, S-Corp, C-Corp)
-- Sales tax, payroll tax, and 2290 Heavy Vehicle Use Tax for trucking/transportation
-- Bookkeeping and financial reporting
-- Strategic tax planning and entity setup
-- IRS compliance and deadlines
-
-Your tone: professional, warm, knowledgeable, concise. You're like a trusted advisor in a chat window — not a robot. Give helpful, specific answers. When someone describes their business, ask a targeted follow-up question and then suggest which MaxTax services would help them. Always keep responses under 120 words. Never give legal advice — you provide information and recommend they book a call for specifics. End responses with a natural follow-up question or a CTA to "Request a Call" when appropriate.`;
-
 async function sendMessage() {
   const input = document.getElementById('aiInput');
   const msg = input.value.trim();
@@ -2345,29 +2338,39 @@ async function getAIResponse() {
   sendBtn.disabled = true;
   showTyping();
 
-  try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: SYSTEM_PROMPT,
-        messages: aiConversation
-      })
-    });
+  const lastUserMessage = (aiConversation[aiConversation.length - 1]?.content || '').toLowerCase();
+  const cannedReplies = [
+    {
+      match: ['starting an llc', 'start an llc', 'forming an llc', "i'm starting an llc"],
+      reply: "Great question. For a new LLC, we usually help with entity setup, EIN guidance, Florida registrations, and a tax-structure review so you start clean from day one. If you share your business type and expected revenue range, we can recommend whether single-member LLC, partnership, or S-Corp election is the best fit.",
+    },
+    {
+      match: ['bookkeeping', 'quickbooks'],
+      reply: "We can definitely help with bookkeeping. Our team handles monthly QuickBooks cleanup, transaction categorization, reconciliations, and reporting so your books stay tax-ready year-round. If you want, tell us whether your books are current or behind and we can suggest a catch-up plan.",
+    },
+    {
+      match: ['2290', 'trucking', 'truck'],
+      reply: "For trucking clients, we support Form 2290 filing and reporting, plus related compliance deadlines. If you tell us how many vehicles are in your fleet and when you started operations, we can outline your filing timeline and what documents to prepare.",
+    },
+    {
+      match: ['tax situation', 'can you help me with taxes', 'help with taxes'],
+      reply: "Thank you for reaching out. Our agents are currently unavailable at the moment. If you can leave a message, we will get right back to you. You can also submit the Book An Appointment form below for faster follow-up.",
+    },
+  ];
 
-    const data = await response.json();
-    const reply = data.content?.[0]?.text || "I'm having trouble connecting right now. Please call us at (407) 807-2353 or use the form below.";
+  let reply = "Thank you for reaching out. Our agents are currently unavailable at the moment. If you can leave a message, we will get right back to you. You can also submit the Book An Appointment form below and we will follow up within one business day.";
 
-    removeTyping();
-    appendMessage('ai', reply);
-    aiConversation.push({ role: 'assistant', content: reply });
-
-  } catch (err) {
-    removeTyping();
-    appendMessage('ai', "I'm having a connection issue. You can reach us directly at <strong>(407) 807-2353</strong> or use the contact form below — we respond within one business day.");
+  for (const item of cannedReplies) {
+    if (item.match.some((phrase) => lastUserMessage.includes(phrase))) {
+      reply = item.reply;
+      break;
+    }
   }
+
+  await new Promise((resolve) => setTimeout(resolve, 650));
+  removeTyping();
+  appendMessage('ai', reply);
+  aiConversation.push({ role: 'assistant', content: reply });
 
   isAiLoading = false;
   sendBtn.disabled = false;
