@@ -549,6 +549,7 @@ body{
   display:flex;
   gap:10px;
   animation:msgIn 0.3s ease;
+  min-width:0;
 }
 
 @keyframes msgIn{
@@ -587,6 +588,8 @@ body{
   font-size:13.5px;
   line-height:1.65;
   word-break:break-word;
+  overflow-wrap:anywhere;
+  min-width:0;
 }
 
 .msg.ai .msg-bubble{
@@ -1718,7 +1721,7 @@ body{
 @media(max-width:992px){
   .nav-links{display:none;}
   .mobile-nav-toggle{display:inline-flex;}
-  .hero-content{padding-top:58px;}
+  .hero-content{padding-top:118px;}
   .hero-ctas,
   .final-cta-btns{
     flex-direction:column;
@@ -1763,6 +1766,7 @@ body{
   }
   .hero-headline{
     font-size:clamp(32px, 9vw, 44px);
+    margin-bottom:18px;
   }
   .hero-sub{
     font-size:15px;
@@ -1793,8 +1797,11 @@ body{
     max-height:40vh;
     padding:16px 18px;
   }
+  .msg{
+    width:100%;
+  }
   .msg-bubble{
-    max-width:100%;
+    max-width:calc(100% - 42px);
     font-size:16px;
     line-height:1.55;
   }
@@ -1848,6 +1855,9 @@ body{
   .booking{
     padding-top:64px;
     padding-bottom:64px;
+  }
+  .hero-content{
+    padding-top:128px;
   }
   .service-card{
     padding:28px 22px;
