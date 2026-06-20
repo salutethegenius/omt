@@ -2776,17 +2776,17 @@ async function handleBookingSubmit(event) {
 
   const formData = new FormData(form);
   const payload = {
-    fullName: formData.get('fullName'),
-    businessName: formData.get('businessName'),
-    email: formData.get('email'),
-    phone: formData.get('phone'),
-    role: formData.get('role'),
-    revenueRange: formData.get('revenueRange'),
-    services: [formData.get('services')],
-    description: formData.get('description'),
+    fullName: String(formData.get('fullName') ?? '').trim(),
+    businessName: String(formData.get('businessName') ?? '').trim(),
+    email: String(formData.get('email') ?? '').trim(),
+    phone: String(formData.get('phone') ?? '').trim(),
+    role: String(formData.get('role') ?? '').trim(),
+    revenueRange: String(formData.get('revenueRange') ?? '').trim(),
+    services: String(formData.get('services') ?? '').trim(),
+    description: String(formData.get('description') ?? '').trim(),
     preferredDays: [],
-    bestTimeWindow: formData.get('bestTimeWindow'),
-    relationshipType: formData.get('relationshipType'),
+    bestTimeWindow: String(formData.get('bestTimeWindow') ?? '').trim(),
+    relationshipType: String(formData.get('relationshipType') ?? '').trim(),
   };
 
   try {
@@ -2796,8 +2796,10 @@ async function handleBookingSubmit(event) {
       body: JSON.stringify(payload),
     });
 
-    if (!response.ok) {
-      throw new Error('Unable to submit right now.');
+    const result = await response.json().catch(() => ({}));
+
+    if (!response.ok || !result.ok) {
+      throw new Error(result.message || 'Unable to submit right now.');
     }
 
     form.reset();
