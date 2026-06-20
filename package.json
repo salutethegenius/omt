@@ -1,0 +1,8 @@
+{
+  "name": "orlandomaxtax",
+  "private": true,
+  "scripts": {
+    "vercel-build": "pnpm -C landing install && pnpm -C landing build"
+  },
+  "packageManager": "pnpm@9.15.9"
+}
