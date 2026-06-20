@@ -1,0 +1,30 @@
+{
+  "name": "Orlando MaxTax Solutions & Accounting Services",
+  "short_name": "Orlando MaxTax",
+  "description": "Orlando tax, accounting, and bookkeeping for business owners.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0A2563",
+  "theme_color": "#0A2563",
+  "lang": "en-US",
+  "icons": [
+    {
+      "src": "/icon-light-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react"
 
+import { LogoLedgerMark } from "@/components/logo-ledger-mark"
+
 const serviceLinks = [
   "Business tax & compliance",
   "Accounting & financial clarity",
@@ -18,15 +20,13 @@ const companyLinks = [
 
 export function Footer() {
   return (
-    <footer className="bg-navy-light">
+    <footer className="border-t border-border bg-white">
       <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div>
-            <span className="font-serif text-xl font-bold text-primary-foreground">
-              Orlando MaxTax Solutions
-            </span>
-            <p className="mt-4 text-base leading-relaxed text-gray-300">
+            <LogoLedgerMark className="mb-4 h-11 w-auto" />
+            <p className="mt-4 text-base leading-relaxed text-gray-600">
               Tax preparation, bookkeeping, and advisory services for Orlando
               individuals and business owners all year.
             </p>
@@ -34,7 +34,7 @@ export function Footer() {
 
           {/* Services */}
           <div>
-            <h3 className="text-base font-semibold uppercase tracking-[0.25em] text-primary-foreground">
+            <h3 className="text-base font-semibold uppercase tracking-[0.25em] text-navy">
               Services
             </h3>
             <ul className="mt-4 flex flex-col gap-3" role="list">
@@ -42,7 +42,7 @@ export function Footer() {
                 <li key={link}>
                   <a
                     href="#services"
-                    className="text-base text-gray-300 transition-colors hover:text-green"
+                    className="text-base text-gray-600 transition-colors hover:text-green"
                   >
                     {link}
                   </a>
@@ -53,7 +53,7 @@ export function Footer() {
 
           {/* Company */}
           <div>
-            <h3 className="text-base font-semibold uppercase tracking-[0.25em] text-primary-foreground">
+            <h3 className="text-base font-semibold uppercase tracking-[0.25em] text-navy">
               Company
             </h3>
             <ul className="mt-4 flex flex-col gap-3" role="list">
@@ -61,7 +61,7 @@ export function Footer() {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                  className="text-base text-gray-300 transition-colors hover:text-green"
+                  className="text-base text-gray-600 transition-colors hover:text-green"
                   >
                     {link.label}
                   </a>
@@ -72,7 +72,7 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="text-base font-semibold uppercase tracking-[0.25em] text-primary-foreground">
+            <h3 className="text-base font-semibold uppercase tracking-[0.25em] text-navy">
               Contact
             </h3>
             <ul className="mt-4 flex flex-col gap-4" role="list">
@@ -80,7 +80,7 @@ export function Footer() {
                 <Phone className="mt-0.5 h-4 w-4 shrink-0 text-green" />
                 <a
                   href="tel:4078072353"
-                  className="text-base text-gray-300 transition-colors hover:text-green"
+                  className="text-base text-gray-600 transition-colors hover:text-green"
                 >
                   (407) 807-2353
                 </a>
@@ -89,7 +89,7 @@ export function Footer() {
                 <Mail className="mt-0.5 h-4 w-4 shrink-0 text-green" />
                 <a
                   href="mailto:info@orlandomaxtax.com"
-                  className="text-base text-gray-300 transition-colors hover:text-green"
+                  className="text-base text-gray-600 transition-colors hover:text-green"
                 >
                   info@orlandomaxtax.com
                 </a>
@@ -100,20 +100,20 @@ export function Footer() {
                   href="https://wa.me/14078072353"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-base text-gray-300 transition-colors hover:text-green"
+                  className="text-base text-gray-600 transition-colors hover:text-green"
                 >
                   WhatsApp: (407) 807-2353
                 </a>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-green" />
-                <span className="text-base text-gray-300">
+                <span className="text-base text-gray-600">
                   Orlando, Florida
                 </span>
               </li>
               <li className="flex items-start gap-3">
                 <Clock className="mt-0.5 h-4 w-4 shrink-0 text-green" />
-                <span className="text-base text-gray-300">
+                <span className="text-base text-gray-600">
                   Mon - Fri: 9am - 5pm, Sat by appointment
                 </span>
               </li>
@@ -122,8 +122,8 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 border-t border-primary-foreground/10 pt-8">
-          <p className="text-center text-sm text-gray-400">
+        <div className="mt-12 border-t border-border pt-8">
+          <p className="text-center text-sm text-gray-500">
             {`\u00A9 ${new Date().getFullYear()} Orlando MaxTax Solutions & Accounting Services. All rights reserved.`}
           </p>
         </div>
