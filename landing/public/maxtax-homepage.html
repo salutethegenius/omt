@@ -2347,6 +2347,11 @@ body{
           </div>
         </div>
 
+        <!-- Cloudflare Turnstile bot protection -->
+        <div class="field full" style="margin-top: 0.5rem;">
+          <div class="cf-turnstile" data-sitekey="__TURNSTILE_SITE_KEY__"></div>
+        </div>
+
         <div class="booking-actions">
           <button class="btn-primary" id="bookingSubmit" type="submit">Book An Appointment</button>
           <div class="booking-note">We respond to serious business inquiries within one business day.</div>
@@ -2787,6 +2792,7 @@ async function handleBookingSubmit(event) {
     preferredDays: [],
     bestTimeWindow: String(formData.get('bestTimeWindow') ?? '').trim(),
     relationshipType: String(formData.get('relationshipType') ?? '').trim(),
+    turnstileToken: String(formData.get('cf-turnstile-response') ?? '').trim(),
   };
 
   try {
@@ -2807,7 +2813,9 @@ async function handleBookingSubmit(event) {
     status.textContent = 'Thank you. We have received your request and will contact you soon.';
   } catch (error) {
     status.className = 'booking-status err';
-    status.textContent = 'We could not submit your request right now. Please call (689) 239-1510 or email orlandomaxtax@gmail.com.';
+    status.textContent = error instanceof Error && error.message
+      ? error.message
+      : 'We could not submit your request right now. Please call (689) 239-1510 or email orlandomaxtax@gmail.com.';
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = 'Book An Appointment';
@@ -2862,5 +2870,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 </script>
+<!-- Cloudflare Turnstile -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </body>
 </html>
