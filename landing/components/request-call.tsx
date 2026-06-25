@@ -27,6 +27,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
+import { Turnstile } from "@marsidev/react-turnstile"
 
 const requestCallSchema = z.object({
   fullName: z.string().min(2, "Please enter your full name."),
@@ -52,6 +53,7 @@ export function RequestCall() {
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
 
   const form = useForm<RequestCallValues>({
     resolver: zodResolver(requestCallSchema),
@@ -71,6 +73,11 @@ export function RequestCall() {
   })
 
   async function onSubmit(values: RequestCallValues) {
+    if (!turnstileToken) {
+      setSubmitError("Please complete the verification to continue.")
+      return
+    }
+
     try {
       setSubmitting(true)
       setSubmitError(null)
@@ -80,7 +87,7 @@ export function RequestCall() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ ...values, turnstileToken }),
       })
 
       if (!res.ok) {
@@ -88,6 +95,7 @@ export function RequestCall() {
       }
 
       setSubmitted(true)
+      setTurnstileToken(null)
       form.reset()
     } catch (error) {
       setSubmitError(
@@ -479,6 +487,15 @@ export function RequestCall() {
                   />
                 </div>
 
+                <div>
+                  <Turnstile
+                    siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+                    onSuccess={setTurnstileToken}
+                    onError={() => setTurnstileToken(null)}
+                    onExpire={() => setTurnstileToken(null)}
+                  />
+                </div>
+
                 {submitError && (
                   <p className="text-sm text-destructive">{submitError}</p>
                 )}
@@ -487,7 +504,7 @@ export function RequestCall() {
                   <Button
                     type="submit"
                     className="inline-flex items-center gap-2 rounded-lg bg-green px-8 py-4 text-base font-semibold text-accent-foreground transition-colors hover:bg-green-dark"
-                    disabled={submitting}
+                    disabled={submitting || !turnstileToken}
                   >
                     {submitting ? "Submitting..." : "Book An Appointment"}
                   </Button>

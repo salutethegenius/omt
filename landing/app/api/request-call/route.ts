@@ -26,6 +26,7 @@ const requestCallSchema = z.object({
   preferredDays: z.array(z.string()).optional(),
   bestTimeWindow: z.string().trim().optional(),
   relationshipType: z.string().trim().min(1),
+  turnstileToken: z.string().min(1, "Verification token required."),
 })
 
 export async function POST(request: Request) {
@@ -44,6 +45,29 @@ export async function POST(request: Request) {
 
     const body = await request.json()
     const data = requestCallSchema.parse(body)
+
+    // Verify Turnstile token to ensure human submission
+    const turnstileRes = await fetch(
+      "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          secret: process.env.TURNSTILE_SECRET_KEY,
+          response: data.turnstileToken,
+        }),
+      },
+    )
+    const turnstileResult: { success: boolean } = await turnstileRes.json()
+    if (!turnstileResult.success) {
+      return NextResponse.json(
+        {
+          ok: false,
+          message: "Verification failed. Please try again.",
+        },
+        { status: 400 },
+      )
+    }
 
     const payload = {
       source: "orlandomaxtax.com",
