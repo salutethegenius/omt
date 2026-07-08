@@ -1,6 +1,7 @@
 import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react"
 
 import { LogoLedgerMark } from "@/components/logo-ledger-mark"
+import { siteConfig } from "@/lib/site-config"
 
 const serviceLinks = [
   "Business tax & compliance",
@@ -79,10 +80,10 @@ export function Footer() {
               <li className="flex items-start gap-3">
                 <Phone className="mt-0.5 h-4 w-4 shrink-0 text-green" />
                 <a
-                  href="tel:4078072353"
+                  href={`tel:${siteConfig.phone.replace(/[^\d+]/g, "")}`}
                   className="text-base text-gray-600 transition-colors hover:text-green"
                 >
-                  (407) 807-2353
+                  {siteConfig.phoneDisplay}
                 </a>
               </li>
               <li className="flex items-start gap-3">
@@ -97,12 +98,12 @@ export function Footer() {
               <li className="flex items-start gap-3">
                 <MessageCircle className="mt-0.5 h-4 w-4 shrink-0 text-green" />
                 <a
-                  href="https://wa.me/14078072353"
+                  href={`https://wa.me/${siteConfig.phone.replace(/[^\d]/g, "")}`}
                   target="_blank"
                   rel="noreferrer"
                   className="text-base text-gray-600 transition-colors hover:text-green"
                 >
-                  WhatsApp: (407) 807-2353
+                  WhatsApp: {siteConfig.phoneDisplay}
                 </a>
               </li>
               <li className="flex items-start gap-3">
